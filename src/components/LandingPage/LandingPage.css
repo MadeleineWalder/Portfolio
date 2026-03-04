@@ -1,0 +1,54 @@
+/* LandingPage Component Styles */
+/* Modern, minimal full-screen landing section with background image */
+
+.landing-page {
+  position: relative;
+  width: 100vw; /* Always full viewport width */
+  height: 100vh; /* Always full viewport height */
+  overflow: hidden; /* Prevents any overflow from the image */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background image styling */
+.landing-page-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Places image at the back */
+}
+
+/* Glassmorphic overlay - creates blurred effect over the background */
+.landing-page-glass-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Places overlay above background image */
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0);
+  backdrop-filter: blur(40px); /* Creates the blur effect */
+  -webkit-backdrop-filter: blur(40px); /* Safari support */
+}
+
+/* Content overlay container */
+/* This will hold any text, buttons, or other content on top of the image */
+.landing-page-content {
+  position: relative;
+  z-index: 3; /* Places content above the glass overlay */
+  width: 100%;
+  max-width: 120rem; /* Constrains content width on very large screens */
+  padding: 0 2rem; /* Adds breathing room on smaller screens */
+  text-align: center;
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+  .landing-page-content {
+    padding: 0 1.5rem; /* Slightly less padding on smaller screens */
+  }
+}

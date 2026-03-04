@@ -1,0 +1,146 @@
+/* Global Styles for Portfolio Website */
+/* Universal styles and CSS variables that apply across all pages and components */
+
+/* ===========================
+   CUSTOM FONTS
+   =========================== */
+
+/* Playwrite US Trad - Logo Font (Regular only) */
+/* Use sparingly for headlines, has low readability */
+@font-face {
+  font-family: 'Playwrite US Trad';
+  src: url('../fonts/PlaywriteUSTrad-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* Shows fallback text while font loads */
+}
+
+/* Mukta - Extra Light (200) */
+/* For headlines, titles & larger text - clear and elegant */
+@font-face {
+  font-family: 'Mukta';
+  src: url('../fonts/Mukta-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Mukta - Light (300) */
+/* For paragraphs, copyright, terms & conditions, longer content - high readability */
+@font-face {
+  font-family: 'Mukta';
+  src: url('../fonts/Mukta-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Mukta - Semi Bold (600) */
+/* For button text, link text - grabs attention, linked to actions */
+@font-face {
+  font-family: 'Mukta';
+  src: url('../fonts/Mukta-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Mukta - Extra Bold (800) */
+/* For hero headlines (bold parts) - makes statements stand out */
+@font-face {
+  font-family: 'Mukta';
+  src: url('../fonts/Mukta-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===========================
+   CSS RESET & BASE STYLES
+   =========================== */
+
+/* CSS Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Makes padding and border included in element's total width/height */
+}
+
+html {
+  font-size: 16px; /* Base font size for rem calculations */
+  scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+body {
+  font-family: 'Mukta', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  font-weight: 300; /* Mukta Light for body text */
+  -webkit-font-smoothing: antialiased; /* Smoother fonts on Mac */
+  -moz-osx-font-smoothing: grayscale; /* Smoother fonts on Mac */
+  line-height: 1.6; /* Comfortable line spacing for readability */
+}
+
+/* ===========================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   =========================== */
+
+/* CSS Custom Properties (Variables) */
+/* Define these as you establish your color palette and design system */
+:root {
+  /* Typography - Font Families */
+  --font-logo: 'Playwrite US Trad', cursive; /* Logo font, use sparingly */
+  --font-heading: 'Mukta', sans-serif; /* Headings - use weight 200 (Extra Light) */
+  --font-body: 'Mukta', sans-serif; /* Body text - use weight 300 (Light) */
+  --font-button: 'Mukta', sans-serif; /* Buttons/Links - use weight 600 (Semi Bold) */
+  
+  /* Typography - Font Weights */
+  --weight-extra-light: 200; /* Headlines, titles */
+  --weight-light: 300; /* Body text, paragraphs */
+  --weight-semi-bold: 600; /* Buttons, links */
+  --weight-extra-bold: 800; /* Hero headlines (bold emphasis) */
+  
+  /* Colors - to be defined as design evolves */
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+  --color-text: #333333;
+  --color-background: #ffffff;
+  
+  /* Spacing - consistent spacing scale */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 6rem;
+  
+  /* Layout constraints */
+  --max-width: 120rem;
+}
+
+/* ===========================
+   DEFAULT ELEMENT STYLES
+   =========================== */
+
+/* Remove default list styling */
+ul, ol {
+  list-style: none;
+}
+
+/* Remove default link styling */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Make images responsive by default */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Ensure buttons inherit font */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
