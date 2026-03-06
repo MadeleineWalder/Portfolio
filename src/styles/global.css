@@ -79,6 +79,8 @@ body {
   -webkit-font-smoothing: antialiased; /* Smoother fonts on Mac */
   -moz-osx-font-smoothing: grayscale; /* Smoother fonts on Mac */
   line-height: 1.6; /* Comfortable line spacing for readability */
+  background-color: var(--color-background-dark); /* Uses CSS variable - change once, affects everywhere */
+  color: var(--color-text); /* Uses CSS variable for text color */
 }
 
 /* ===========================
@@ -100,11 +102,13 @@ body {
   --weight-semi-bold: 600; /* Buttons, links */
   --weight-extra-bold: 800; /* Hero headlines (bold emphasis) */
   
-  /* Colors - to be defined as design evolves */
-  --color-primary: #000000;
-  --color-secondary: #ffffff;
-  --color-text: #333333;
-  --color-background: #ffffff;
+  /* Brand Colors */
+  --color-primary: #00F4FD; /* Cyan/Light Blue - main brand color */
+  --color-secondary: #FF8CE2; /* Pink - secondary accent */
+  --color-tertiary: #9099FB; /* Purple - tertiary accent */
+  --color-text: #FFFFFF; /* White - main text color */
+  --color-background: #001943; /* Dark Blue - secondary background */
+  --color-background-dark: #000A13; /* Very Dark Blue - primary background */
   
   /* Spacing - consistent spacing scale */
   --spacing-xs: 0.5rem;

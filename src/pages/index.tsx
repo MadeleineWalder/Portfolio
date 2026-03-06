@@ -5,6 +5,7 @@ import * as React from "react";
 import type { HeadFC, PageProps } from "gatsby";
 import LandingPage from "../components/LandingPage/LandingPage";
 import "../styles/global.css"; // Import global styles
+import "./index.css"; // Import page-specific styles
 
 // Main Index Page Component
 // This is the root homepage of the portfolio

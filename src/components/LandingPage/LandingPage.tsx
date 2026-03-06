@@ -15,16 +15,17 @@ interface LandingPageProps {}
 const LandingPage: React.FC<LandingPageProps> = () => {
   return (
     <section className="landing-page">
-      {/* StaticImage automatically optimizes images for web performance */}
-      {/* It creates multiple sizes and formats (webp, jpg) for different devices */}
-      <StaticImage
-        src="../../images/background-1.jpg"
-        alt="Portfolio background"
-        className="landing-page-background"
-        placeholder="blurred" // Shows blurred placeholder while loading
-        layout="fullWidth" // Makes image fill its container
-        objectFit="cover" // Ensures image covers the area without distortion
-      />
+      {/* Background image wrapper - positioned absolutely to fill the section */}
+      <div className="landing-page-background-wrapper">
+        <StaticImage
+          src="../../images/background-1.jpg"
+          alt="Portfolio background"
+          className="landing-page-background-image"
+          placeholder="blurred" // Shows blurred placeholder while loading
+          layout="fullWidth" // Makes image fill its container
+          objectFit="cover" // Ensures image covers the area without distortion
+        />
+      </div>
       
       {/* Glassmorphic overlay - creates blurred effect over background image */}
       <div className="landing-page-glass-overlay" />

@@ -1,24 +1,28 @@
 /* LandingPage Component Styles */
 /* Modern, minimal full-screen landing section with background image */
+/* Follows the same pattern as Glassmorphism-Experiments project */
 
 .landing-page {
-  position: relative;
+  position: relative; /* Allows absolute positioning inside, keeps section in document flow */
   width: 100vw; /* Always full viewport width */
   height: 100vh; /* Always full viewport height */
   overflow: hidden; /* Prevents any overflow from the image */
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* Background image styling */
-.landing-page-background {
+/* Background image wrapper - absolutely positioned to fill the entire section */
+.landing-page-background-wrapper {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 1; /* Places image at the back */
+}
+
+/* The actual StaticImage component inside the wrapper */
+.landing-page-background-image {
+  width: 100%;
+  height: 100%;
 }
 
 /* Glassmorphic overlay - creates blurred effect over the background */
@@ -38,10 +42,15 @@
 /* Content overlay container */
 /* This will hold any text, buttons, or other content on top of the image */
 .landing-page-content {
-  position: relative;
-  z-index: 3; /* Places content above the glass overlay */
+  position: absolute; /* Absolutely positioned like glass overlay */
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 120rem; /* Constrains content width on very large screens */
+  height: 100%;
+  z-index: 3; /* Places content above the glass overlay */
+  display: flex; /* Use flexbox for centering content */
+  align-items: center;
+  justify-content: center;
   padding: 0 2rem; /* Adds breathing room on smaller screens */
   text-align: center;
 }
