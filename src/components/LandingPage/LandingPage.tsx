@@ -1,9 +1,9 @@
 // LandingPage Component
 // This is the hero/landing section of the portfolio homepage
-// Features a full-screen background image with modern, minimal styling
+// Features a full-screen background with glassmorphic effect
 
 import * as React from "react";
-import { StaticImage } from "gatsby-plugin-image"; // Gatsby's optimized image component
+import AnimatedBackground from "./AnimatedBackground";
 import "./LandingPage.css";
 
 // Define the props interface for type safety
@@ -15,22 +15,16 @@ interface LandingPageProps {}
 const LandingPage: React.FC<LandingPageProps> = () => {
   return (
     <section className="landing-page">
-      {/* Background image wrapper - positioned absolutely to fill the section */}
+      {/* Background container - positioned absolutely to fill the section */}
       <div className="landing-page-background-wrapper">
-        <StaticImage
-          src="../../images/background-1.jpg"
-          alt="Portfolio background"
-          className="landing-page-background-image"
-          placeholder="blurred" // Shows blurred placeholder while loading
-          layout="fullWidth" // Makes image fill its container
-          objectFit="cover" // Ensures image covers the area without distortion
-        />
+        {/* Animated concentric circles background */}
+        <AnimatedBackground />
       </div>
       
-      {/* Glassmorphic overlay - creates blurred effect over background image */}
+      {/* Glassmorphic overlay - creates blurred effect over background */}
       <div className="landing-page-glass-overlay" />
       
-      {/* Content overlay container - for future text/content on top of the image */}
+      {/* Content overlay container - for text/content on top */}
       <div className="landing-page-content">
         {/* Content will be added here in future updates */}
       </div>

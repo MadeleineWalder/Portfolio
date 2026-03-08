@@ -1,0 +1,214 @@
+/* AnimatedBackground Component Styles */
+/* 17 concentric circles with exact Figma design colors that pulse slowly */
+
+.animated-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/* Base circle styling */
+.circle {
+  position: absolute;
+  border-radius: 50%; /* Makes it circular */
+  transform-origin: center center; /* Scale from the center */
+}
+
+/* Position all circles in the upper-right area */
+/* Using large sizes so only a quarter is visible */
+/* Colors from Figma design - biggest to smallest */
+
+/* Circle 1 - Largest, darkest (#020019) */
+.circle-1 {
+  width: 2452px;
+  height: 2452px;
+  background: #020019;
+  top: -1376px;
+  right: -1226px;
+  z-index: 1; /* Largest circle at the back */
+}
+
+/* Circle 2 - Second largest (#030021) */
+.circle-2 {
+  width: 2353px;
+  height: 2353px;
+  background: #030021;
+  top: -1327px;
+  right: -1177px;
+  z-index: 2;
+}
+
+/* Circle 3 - (#1500FF) */
+.circle-3 {
+  width: 2287px;
+  height: 2287px;
+  background: #1500ff;
+  top: -1294px;
+  right: -1144px;
+  z-index: 3;
+}
+
+/* Circle 4 - (#1100CB) */
+.circle-4 {
+  width: 2138px;
+  height: 2138px;
+  background: #1100cb;
+  top: -1219px;
+  right: -1069px;
+  z-index: 4;
+}
+
+/* Circle 5 - (#0D009C) */
+.circle-5 {
+  width: 2055px;
+  height: 2055px;
+  background: #0d009c;
+  top: -1178px;
+  right: -1028px;
+  z-index: 5;
+}
+
+/* Circle 6 - (#070056) */
+.circle-6 {
+  width: 1890px;
+  height: 1890px;
+  background: #070056;
+  top: -1095px;
+  right: -945px;
+  z-index: 6;
+}
+
+/* Circle 7 - (#0D009C) */
+.circle-7 {
+  width: 1708px;
+  height: 1708px;
+  background: #0d009c;
+  top: -1004px;
+  right: -854px;
+  z-index: 7;
+}
+
+/* Circle 8 - (#1100CB) */
+.circle-8 {
+  width: 1609px;
+  height: 1609px;
+  background: #1100cb;
+  top: -955px;
+  right: -805px;
+  z-index: 8;
+}
+
+/* Circle 9 - (#1500FF) */
+.circle-9 {
+  width: 1527px;
+  height: 1527px;
+  background: #1500ff;
+  top: -914px;
+  right: -764px;
+  z-index: 9;
+}
+
+/* Circle 10 - (#0048FF) */
+.circle-10 {
+  width: 1461px;
+  height: 1461px;
+  background: #0048ff;
+  top: -881px;
+  right: -731px;
+  z-index: 10;
+}
+
+/* Circle 11 - (#0085FF) */
+.circle-11 {
+  width: 1279px;
+  height: 1279px;
+  background: #0085ff;
+  top: -790px;
+  right: -640px;
+  z-index: 11;
+}
+
+/* Circle 12 - (#0066FF) */
+.circle-12 {
+  width: 1048px;
+  height: 1048px;
+  background: #0066ff;
+  top: -674px;
+  right: -524px;
+  z-index: 12;
+}
+
+/* Circle 13 - (#1100CC) */
+.circle-13 {
+  width: 932px;
+  height: 932px;
+  background: #1100cc;
+  top: -616px;
+  right: -466px;
+  z-index: 13;
+}
+
+/* Circle 14 - (#0D009C) */
+.circle-14 {
+  width: 833px;
+  height: 833px;
+  background: #0d009c;
+  top: -567px;
+  right: -417px;
+  z-index: 14;
+}
+
+/* Circle 15 - (#070056) */
+.circle-15 {
+  width: 783px;
+  height: 783px;
+  background: #070056;
+  top: -542px;
+  right: -392px;
+  z-index: 15;
+}
+
+/* Circle 16 - (#030022) */
+.circle-16 {
+  width: 638px;
+  height: 638px;
+  background: #030022;
+  top: -469px;
+  right: -319px;
+  z-index: 16;
+}
+
+/* Circle 17 - Smallest (#01000C) */
+.circle-17 {
+  width: 549px;
+  height: 549px;
+  background: #01000c;
+  top: -425px;
+  right: -275px;
+  z-index: 17; /* Smallest circle on top */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  /* Scale down circles proportionally on mobile */
+  .circle-1 { width: 2000px; height: 2000px; top: -1000px; right: -1000px; }
+  .circle-2 { width: 1900px; height: 1900px; top: -950px; right: -950px; }
+  .circle-3 { width: 1800px; height: 1800px; top: -900px; right: -900px; }
+  .circle-4 { width: 1700px; height: 1700px; top: -850px; right: -850px; }
+  .circle-5 { width: 1600px; height: 1600px; top: -800px; right: -800px; }
+  .circle-6 { width: 1500px; height: 1500px; top: -750px; right: -750px; }
+  .circle-7 { width: 1400px; height: 1400px; top: -700px; right: -700px; }
+  .circle-8 { width: 1300px; height: 1300px; top: -650px; right: -650px; }
+  .circle-9 { width: 1200px; height: 1200px; top: -600px; right: -600px; }
+  .circle-10 { width: 1100px; height: 1100px; top: -550px; right: -550px; }
+  .circle-11 { width: 1000px; height: 1000px; top: -500px; right: -500px; }
+  .circle-12 { width: 900px; height: 900px; top: -450px; right: -450px; }
+  .circle-13 { width: 800px; height: 800px; top: -400px; right: -400px; }
+  .circle-14 { width: 700px; height: 700px; top: -350px; right: -350px; }
+  .circle-15 { width: 600px; height: 600px; top: -300px; right: -300px; }
+  .circle-16 { width: 500px; height: 500px; top: -250px; right: -250px; }
+  .circle-17 { width: 400px; height: 400px; top: -200px; right: -200px; }
+}
