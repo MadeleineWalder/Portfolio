@@ -3,11 +3,40 @@
 
 .animated-background {
   position: absolute;
-  width: 100%;
+  width: 100%; /* Full width to prevent any cutting */
   height: 100%;
   top: 0;
-  left: 0;
-  overflow: hidden;
+  right: 0;
+  overflow: visible;
+}
+
+/* Responsive positioning - shift left on smaller screens to keep circles visible */
+
+/* 1600x900 & 1536x864 - shift left to compensate for narrower viewport */
+@media (max-width: 1600px) {
+  .animated-background {
+    transform: translateY(-15vw);
+  }
+}
+
+@media (max-width: 1536px) {
+  .animated-background {
+    transform: translateY(-17vw);
+  }
+}
+
+/* 1366x768 - shift even more left */
+@media (max-width: 1399px) {
+  .animated-background {
+    transform: translateY(-24vw);
+  }
+}
+
+/* 1280x720 - maximum shift left for smallest screens */
+@media (max-width: 1299px) {
+  .animated-background {
+    transform: translateY(-30vw);
+  }
 }
 
 /* Base circle styling */

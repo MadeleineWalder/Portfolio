@@ -4,6 +4,7 @@
 
 import * as React from "react";
 import AnimatedBackground from "./AnimatedBackground";
+import logoSvg from "../../images/logo.svg";
 import "./LandingPage.css";
 
 // Define the props interface for type safety
@@ -26,7 +27,23 @@ const LandingPage: React.FC<LandingPageProps> = () => {
       
       {/* Content overlay container - for text/content on top */}
       <div className="landing-page-content">
-        {/* Content will be added here in future updates */}
+        {/* Logo SVG */}
+        <img src={logoSvg} alt="Maddy Design" className="landing-page-logo" />
+        
+        {/* Main headline with colored keywords */}
+        <h2 className="landing-page-headline">
+          Need a <span className="highlight-purple">modern,</span>
+          <br />
+          <span className="highlight-cyan">professional</span> website?
+        </h2>
+        
+        {/* Subline/services list */}
+        <p className="landing-page-subline">
+          Custom websites - Brand identity - Photo editing
+        </p>
+        
+        {/* Call-to-action button */}
+        <button className="landing-page-cta">Begin</button>
       </div>
     </section>
   );

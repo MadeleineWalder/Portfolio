@@ -45,15 +45,108 @@
   height: 100%;
   z-index: 3; /* Places content above the glass overlay */
   display: flex; /* Use flexbox for centering content */
+  flex-direction: column; /* Stack items vertically */
   align-items: center;
   justify-content: center;
   padding: 0 2rem; /* Adds breathing room on smaller screens */
   text-align: center;
+  gap: 1.5rem; /* Space between elements */
+}
+
+/* Logo SVG image */
+.landing-page-logo {
+  height: 3rem; /* Control logo size by height */
+  width: auto; /* Maintain aspect ratio */
+  margin: 0;
+}
+
+/* Main headline - large, bold, with colored keywords */
+.landing-page-headline {
+  font-family: var(--font-heading); /* Mukta */
+  font-size: 4rem; /* Large headline size */
+  font-weight: var(--weight-extra-light); /* 200 */
+  color: var(--color-text); /* White */
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Colored keyword spans in headline with gradients */
+.highlight-purple {
+  font-weight: var(--weight-extra-bold); /* 800 - make it stand out */
+  /* 3-stop gradient: cyan → purple → pink */
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.highlight-cyan {
+  font-weight: var(--weight-extra-bold); /* 800 - make it stand out */
+  /* 3-stop gradient: cyan → purple → pink */
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Subline - services list */
+.landing-page-subline {
+  font-family: var(--font-body); /* Mukta */
+  font-size: 1.125rem; /* Slightly larger than body text */
+  font-weight: var(--weight-light); /* 300 */
+  color: var(--color-text); /* White */
+  margin: 0;
+  opacity: 0.9; /* Slightly transparent for hierarchy */
+}
+
+/* Call-to-action button with gradient border */
+.landing-page-cta {
+  font-family: var(--font-button); /* Mukta */
+  font-size: 1rem;
+  font-weight: var(--weight-semi-bold); /* 600 */
+  color: var(--color-text); /* White text */
+  background-color: transparent;
+  border: 2px solid transparent; /* Transparent border for gradient effect */
+  background-image: linear-gradient(var(--color-background-dark), var(--color-background-dark)), 
+                    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%); /* 3-stop gradient: cyan → purple → pink */
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  padding: 0.75rem 3rem; /* Horizontal emphasis */
+  border-radius: 2rem; /* Rounded pill shape */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem; /* Extra space above button */
+}
+
+/* Button hover effect */
+.landing-page-cta:hover {
+  background-image: linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%), 
+                    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%); /* Gradient fill on hover */
+  color: var(--color-background-dark); /* Dark text on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 8px 20px rgba(0, 244, 253, 0.3); /* Glowing shadow */
 }
 
 /* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
   .landing-page-content {
     padding: 0 1.5rem; /* Slightly less padding on smaller screens */
+    gap: 1rem; /* Reduce gap on mobile */
+  }
+  
+  .landing-page-logo {
+    height: 2rem; /* Smaller logo on mobile */
+  }
+  
+  .landing-page-headline {
+    font-size: 2.5rem; /* Smaller headline on mobile */
+  }
+  
+  .landing-page-subline {
+    font-size: 1rem; /* Smaller subline on mobile */
+  }
+  
+  .landing-page-cta {
+    padding: 0.65rem 2.5rem; /* Slightly smaller button on mobile */
   }
 }
