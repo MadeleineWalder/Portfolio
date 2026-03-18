@@ -4,7 +4,7 @@
 
 .landing-page {
   position: relative; /* Allows absolute positioning inside, keeps section in document flow */
-  width: 100vw; /* Always full viewport width */
+  width: 100%; /* Full width without causing horizontal scroll */
   height: 100vh; /* Always full viewport height */
   overflow: hidden; /* Prevents any overflow */
 }
@@ -108,23 +108,33 @@
   background-color: transparent;
   border: 2px solid transparent; /* Transparent border for gradient effect */
   background-image: linear-gradient(var(--color-background-dark), var(--color-background-dark)), 
-                    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%); /* 3-stop gradient: cyan → purple → pink */
+                    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 33%, var(--color-secondary) 66%, var(--color-primary) 100%); /* Extended gradient that loops */
   background-origin: border-box;
   background-clip: padding-box, border-box;
+  background-size: 100%, 200% 100%; /* Make gradient border 2x size for animation */
+  background-position: 0 0, 0% 0%; /* Start position */
   padding: 0.75rem 3rem; /* Horizontal emphasis */
   border-radius: 2rem; /* Rounded pill shape */
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: box-shadow 0.3s ease, background-position 0.3s ease; /* Smooth transitions */
   margin-top: 1rem; /* Extra space above button */
 }
 
-/* Button hover effect */
+/* Button hover effect - sleek and minimal */
 .landing-page-cta:hover {
-  background-image: linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%), 
-                    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%); /* Gradient fill on hover */
-  color: var(--color-background-dark); /* Dark text on hover */
-  transform: translateY(-2px); /* Slight lift effect */
-  box-shadow: 0 8px 20px rgba(0, 244, 253, 0.3); /* Glowing shadow */
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); /* Soft white glow */
+  background-position: 0 0, 100% 0%; /* Shift gradient to create flow effect */
+  animation: gradient-flow 2s linear infinite; /* Continuous gradient animation */
+}
+
+/* Gradient animation - creates flowing color effect */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0 0, 0% 0%;
+  }
+  100% {
+    background-position: 0 0, 200% 0%;
+  }
 }
 
 /* Responsive adjustments for mobile devices */

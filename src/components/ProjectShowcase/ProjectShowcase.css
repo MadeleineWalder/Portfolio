@@ -1,0 +1,54 @@
+/* ProjectShowcase Component Styles */
+/* Full-screen section for portfolio projects with control panel */
+
+.project-showcase {
+  position: relative; /* Allows absolute positioning inside */
+  width: 100%; /* Full width of parent container */
+  height: 100vh; /* Full viewport height */
+  background-color: var(--color-background-dark); /* Dark background */
+  overflow: hidden; /* Prevents any overflow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Content container */
+.project-showcase-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Placeholder title */
+.project-showcase-title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: var(--weight-extra-light);
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Placeholder description */
+.project-showcase-description {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  font-weight: var(--weight-light);
+  color: var(--color-text);
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Responsive adjustments for mobile devices */
+@media (max-width: 768px) {
+  .project-showcase-title {
+    font-size: 2rem;
+  }
+  
+  .project-showcase-description {
+    font-size: 1rem;
+  }
+}

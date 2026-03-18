@@ -14,6 +14,18 @@ interface LandingPageProps {}
 // React Functional Component with TypeScript
 // React.FC (Function Component) ensures proper typing for React components
 const LandingPage: React.FC<LandingPageProps> = () => {
+  // Smooth scroll function to navigate to projects section
+  // scrollIntoView provides smooth scrolling behavior
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById("projects");
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ 
+        behavior: "smooth", // Smooth scroll animation
+        block: "start" // Align to top of viewport
+      });
+    }
+  };
+
   return (
     <section className="landing-page">
       {/* Background container - positioned absolutely to fill the section */}
@@ -42,8 +54,10 @@ const LandingPage: React.FC<LandingPageProps> = () => {
           Custom websites - Brand identity - Photo editing
         </p>
         
-        {/* Call-to-action button */}
-        <button className="landing-page-cta">Begin</button>
+        {/* Call-to-action button - scrolls to projects section on click */}
+        <button className="landing-page-cta" onClick={scrollToProjects}>
+          Begin
+        </button>
       </div>
     </section>
   );

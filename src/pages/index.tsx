@@ -4,6 +4,7 @@
 import * as React from "react";
 import type { HeadFC, PageProps } from "gatsby";
 import LandingPage from "../components/LandingPage/LandingPage";
+import ProjectShowcase from "../components/ProjectShowcase/ProjectShowcase";
 import "../styles/global.css"; // Import global styles
 import "./index.css"; // Import page-specific styles
 
@@ -15,7 +16,8 @@ const IndexPage: React.FC<PageProps> = () => {
       {/* Landing/Hero section with background image */}
       <LandingPage />
       
-      {/* Additional sections will be added below */}
+      {/* Projects section with control panel to switch between designs */}
+      <ProjectShowcase />
     </main>
   );
 };

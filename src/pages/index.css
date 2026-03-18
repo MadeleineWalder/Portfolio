@@ -4,6 +4,6 @@
 main {
   margin: 0;
   padding: 0;
-  width: 100vw;
+  width: 100%; /* Full width without causing horizontal scroll */
   overflow-x: hidden; /* Prevents horizontal scroll */
 }
