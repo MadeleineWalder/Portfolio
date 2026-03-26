@@ -22,13 +22,15 @@ A modern, minimal portfolio website showcasing web development projects and skil
 
 ## ✨ Features
 
-- 🎨 Modern glassmorphic design with blur effects
+- 🎨 Modern glassmorphic design with 40px blur effects
 - 📱 Fully responsive across all device sizes
 - ⚡ Optimized images with Gatsby Image
-- 🎭 Smooth animations and transitions
+- 🎭 Smooth GSAP animations (concentric circles, horizontal lines, frame transitions)
+- 🖼️ Project showcase with frame switching (Home + 3 example frames)
+- 🌊 Animated gradient border effects on interactive elements
 - ♿ Accessibility-focused
 - 🌙 Dark theme design
-- 🔤 Custom typography with web fonts
+- 🔤 Custom typography with web fonts (Playwrite US Trad, Mukta)
 - 📊 Modular component architecture
 - 🚀 Fast loading times (optimized for performance)
 
@@ -65,9 +67,16 @@ Custom fonts are stored in `src/fonts/` as WOFF2 files for optimal performance.
 Portfolio/
 ├── src/
 │   ├── components/          # Reusable React components
-│   │   └── LandingPage/     # Landing page component with glassmorphic effect
+│   │   ├── LandingPage/     # Hero section with animated concentric circles
+│   │   │   ├── AnimatedBackground.tsx    # 17 concentric circles with GSAP pulsing
+│   │   │   ├── LandingPage.tsx
+│   │   │   └── LandingPage.css
+│   │   └── ProjectShowcase/ # Project showcase with frame switching
+│   │       ├── AnimatedLines.tsx         # 7 horizontal flowing lines with GSAP
+│   │       ├── ProjectShowcase.tsx
+│   │       └── ProjectShowcase.css
 │   ├── fonts/               # Custom font files (WOFF2)
-│   ├── images/              # Image assets
+│   ├── images/              # Image assets (logo, lines, project examples)
 │   ├── pages/               # Gatsby pages (file-based routing)
 │   │   ├── index.tsx        # Homepage
 │   │   └── 404.tsx          # 404 error page
@@ -111,6 +120,40 @@ Portfolio/
 
 ---
 
+## 🧩 Key Components
+
+### LandingPage
+Hero section featuring:
+- Animated concentric circles background (17 circles, exact Figma sizes)
+- Glassmorphic blur overlay (40px)
+- Logo, headline, subline, and CTA button
+- Animated gradient border on CTA button (flows on hover)
+- Smooth scroll navigation to projects section
+
+### AnimatedBackground
+Background component with 17 pulsing concentric circles:
+- GSAP scale animations with varied timing (7-9 seconds)
+- Responsive positioning using `translateX()` media queries
+- Exact Figma pixel sizes and color values
+- Creates organic, flowing visual effect
+
+### ProjectShowcase
+Portfolio project display section featuring:
+- 4-frame switching system (Home + 3 Examples)
+- Control panel with animated gradient borders
+- Frame transition animations (fade, scale, slide-up)
+- Glassmorphic blur overlay matching landing page
+- Image glow effects (varying intensity per example)
+
+### AnimatedLines
+Horizontal flowing lines background for home frame:
+- 7 PNG line images imported from Figma exports
+- GSAP vertical floating animations (y-axis only)
+- 100% width, 4% vertical spacing with heavy overlap
+- Z-index layered 1-7 (line-1 at back, line-7 at front)
+
+---
+
 ## 📜 Available Scripts
 
 - **`npm run develop`** - Start the Gatsby development server (port 8000)
@@ -148,6 +191,23 @@ LandingPage/
 
 ## 🎯 Development Guidelines
 
+### Animation Architecture
+
+The project uses **GSAP (GreenSock Animation Platform)** for all animations following these principles:
+
+- **Animations in components only**, never in pages
+- **useLayoutEffect** for animation initialization (runs before browser paint)
+- **GSAP context** for proper cleanup on unmount (`ctx.revert()`)
+- **useRef** to target DOM elements (no global selectors like querySelector)
+- **Varied timing** on repeated animations for organic, natural feel
+- **Gatsby SSR-safe** - animations only run in browser environment
+
+**Animation patterns used:**
+- Pulsing circles (scale animation with yoyo)
+- Flowing lines (vertical y-axis movement with yoyo)
+- Frame transitions (fade + scale + slide with one-time animation)
+- Gradient border flow (CSS keyframe animation on hover)
+
 ### Responsive Design
 
 - Use responsive units: `vh`, `vw`, `%`, `rem`, `em`
@@ -158,8 +218,23 @@ LandingPage/
 
 - Use CSS variables from `global.css` for colors, fonts, spacing
 - Keep z-index values between 1-10 for maintainability
-- Use flexbox/grid for layouts
-- Mobile-first responsive design
+- Use flexbox/grid for layouts with `gap` for spacing
+- Mobile-first responsive design with media queries
+- **Always use `width: 100%`** for full-width sections (never `100vw` - causes horizontal scrollbar)
+- Use `backdrop-filter: blur()` for glassmorphic effects
+- Animated gradient borders using dual background layers
+- Space between elements using `gap`, `padding`, or `margin` (not `line-height`)
+
+### Layout Patterns
+
+- **Glassmorphic overlay structure:**
+  1. Background layer (z-index: 1)
+  2. Glass overlay with blur (z-index: 2)
+  3. Content layer (z-index: 3+)
+  
+- **Full-screen sections:** `width: 100%`, `height: 100vh`, `overflow: hidden`
+- **Flexbox centering:** `display: flex`, `align-items: center`, `justify-content: center`
+- **Component-specific z-index:** Lines 1-7 within their container, controls at 10
 
 ### TypeScript
 
@@ -185,14 +260,30 @@ public/
 
 ---
 
-## 🔮 Future Plans
+## 🔮 Current Status & Next Steps
 
-- Add project showcase sections
-- Implement smooth scroll animations
+### ✅ Completed
+
+- Landing page with animated concentric circles background (17 circles with GSAP)
+- Glassmorphic overlay effect (40px blur)
+- ProjectShowcase section with 4-frame switching system (Home + 3 Examples)
+- AnimatedLines background for home frame (7 horizontal flowing PNG lines)
+- Smooth frame transitions with GSAP (fade, scale, slide-up)
+- Animated gradient border hover effect (flowing color cycle)
+- Custom white glow effects on project images (varying intensity per example)
+- Control panel with gradient borders on hover and active states
+- Smooth scroll navigation from landing page to projects section
+
+### 🚧 Next Steps
+
+- Implement GSAP scroll-triggered animations
+- Add additional sections (About, Contact, Skills)
+- Add navigation menu
+- Create individual project detail pages
 - Add contact form with Netlify Forms
-- Create project detail pages
-- Add blog section (optional)
 - Integrate analytics
+- Add more project examples
+- Add blog section (optional)
 
 ---
 
