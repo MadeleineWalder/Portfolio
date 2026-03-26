@@ -1,30 +1,67 @@
 /* ProjectShowcase Component Styles */
-/* Full-screen section for portfolio projects with control panel */
+/* Full-screen section for portfolio projects with frame switching and control panel */
 
 .project-showcase {
   position: relative; /* Allows absolute positioning inside */
-  width: 100%; /* Full width of parent container */
+  width: 100%; /* Full width without causing horizontal scroll */
   height: 100vh; /* Full viewport height */
   background-color: var(--color-background-dark); /* Dark background */
   overflow: hidden; /* Prevents any overflow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background wrapper - contains animated lines for home frame */
+.project-showcase-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: var(--color-background-dark);
+}
+
+/* Glassmorphic overlay - creates blurred effect over the background */
+.project-showcase-glass-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Places overlay above background, below content */
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0);
+  backdrop-filter: blur(40px); /* Creates the blur effect */
+  -webkit-backdrop-filter: blur(40px); /* Safari support */
+}
+
+/* Main display area for frames */
+.project-showcase-display {
+  position: relative;
+  z-index: 3; /* Above glass overlay */
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Content container */
-.project-showcase-content {
+/* Individual frames */
+.showcase-frame {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  padding: 2rem;
-  text-align: center;
 }
 
-/* Placeholder title */
-.project-showcase-title {
+/* Home frame styles */
+.showcase-home h2 {
   font-family: var(--font-heading);
   font-size: 3rem;
   font-weight: var(--weight-extra-light);
@@ -32,8 +69,7 @@
   margin: 0;
 }
 
-/* Placeholder description */
-.project-showcase-description {
+.showcase-home p {
   font-family: var(--font-body);
   font-size: 1.25rem;
   font-weight: var(--weight-light);
@@ -42,13 +78,71 @@
   margin: 0;
 }
 
+/* Control panel at the bottom */
+.project-showcase-controls {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; /* High z-index to ensure it's on top of everything */
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: rgba(0, 10, 19, 0.8); /* Semi-transparent dark background */
+  border-radius: 3rem; /* Rounded pill shape */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+}
+
+/* Control buttons */
+.control-btn {
+  font-family: var(--font-button);
+  font-size: 0.9rem;
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.6;
+}
+
+/* Hover effect for control buttons */
+.control-btn:hover {
+  opacity: 1;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Active button state */
+.control-btn.active {
+  opacity: 1;
+  border: 2px solid transparent;
+  background-image: linear-gradient(var(--color-background-dark), var(--color-background-dark)), 
+                    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
 /* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
-  .project-showcase-title {
+  .showcase-home h2 {
     font-size: 2rem;
   }
   
-  .project-showcase-description {
+  .showcase-home p {
     font-size: 1rem;
+  }
+
+  .project-showcase-controls {
+    bottom: 2rem;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .control-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 1rem;
   }
 }
