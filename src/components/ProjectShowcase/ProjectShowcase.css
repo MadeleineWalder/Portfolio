@@ -60,22 +60,40 @@
   gap: 2rem;
 }
 
+/* Home frame - position title higher up like typical title placement */
+.showcase-home {
+  justify-content: flex-start; /* Align to top instead of center */
+  padding-top: 8rem; /* Space from top */
+}
+
 /* Home frame styles */
 .showcase-home h2 {
   font-family: var(--font-heading);
-  font-size: 3rem;
+  font-size: 4rem; /* Match landing page headline size */
   font-weight: var(--weight-extra-light);
   color: var(--color-text);
+  line-height: 1.2;
   margin: 0;
 }
 
 .showcase-home p {
   font-family: var(--font-body);
-  font-size: 1.25rem;
+  font-size: 1.125rem; /* Match landing page subline size */
   font-weight: var(--weight-light);
   color: var(--color-text);
-  opacity: 0.8;
+  opacity: 0.9; /* Match landing page subline opacity */
   margin: 0;
+}
+
+/* Project frame image styling */
+.project-image {
+  max-width: 90%; /* Prevent images from touching edges */
+  max-height: 80vh; /* Prevent images from being too tall */
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Maintain aspect ratio */
+  border-radius: 1rem; /* Soften corners */
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3); /* Add depth */
 }
 
 /* Control panel at the bottom */

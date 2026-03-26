@@ -7,6 +7,11 @@ import { useState } from "react";
 import AnimatedLines from "./AnimatedLines";
 import "./ProjectShowcase.css";
 
+// Import project example images
+import projectExample1 from "../../images/landing-p-example-1.jpg";
+import projectExample2 from "../../images/landing-p-example-2.jpg";
+import projectExample3 from "../../images/landing-p-example-3.jpg";
+
 // Define the props interface for type safety
 interface ProjectShowcaseProps {}
 
@@ -30,15 +35,41 @@ const ProjectShowcase: React.FC<ProjectShowcaseProps> = () => {
         {/* Home frame - matching website style */}
         {activeFrame === 0 && (
           <div className="showcase-frame showcase-home">
-            <h2>Home Frame</h2>
-            <p>Content will go here</p>
+            <h2>Design Concepts</h2>
+            <p>I'm a sucker for great design. Please let me make your website pretty.</p>
           </div>
         )}
 
-        {/* Project example frames 1-3 will go here */}
-        {activeFrame >= 1 && activeFrame <= 3 && (
+        {/* Project 1 frame */}
+        {activeFrame === 1 && (
           <div className="showcase-frame showcase-project">
-            <p>Project {activeFrame} frame</p>
+            <img 
+              src={projectExample1} 
+              alt="Project 1 Example" 
+              className="project-image"
+            />
+          </div>
+        )}
+
+        {/* Project 2 frame */}
+        {activeFrame === 2 && (
+          <div className="showcase-frame showcase-project">
+            <img 
+              src={projectExample2} 
+              alt="Project 2 Example" 
+              className="project-image"
+            />
+          </div>
+        )}
+
+        {/* Project 3 frame */}
+        {activeFrame === 3 && (
+          <div className="showcase-frame showcase-project">
+            <img 
+              src={projectExample3} 
+              alt="Project 3 Example" 
+              className="project-image"
+            />
           </div>
         )}
       </div>
