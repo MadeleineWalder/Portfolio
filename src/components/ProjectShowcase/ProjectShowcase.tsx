@@ -20,12 +20,34 @@ interface ProjectShowcaseProps {}
 const ProjectShowcase: React.FC<ProjectShowcaseProps> = () => {
   // State to track which frame is currently active (0 = home, 1-3 = project examples)
   const [activeFrame, setActiveFrame] = useState<number>(0);
+  
+  // State to track if images are preloaded (prevents lag on first frame switch)
+  const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
 
   // Refs for each frame to animate them
   const homeFrameRef = useRef<HTMLDivElement>(null);
   const project1FrameRef = useRef<HTMLDivElement>(null);
   const project2FrameRef = useRef<HTMLDivElement>(null);
   const project3FrameRef = useRef<HTMLDivElement>(null);
+
+  // Preload all project images when component mounts
+  // This prevents lag when switching frames for the first time
+  useEffect(() => {
+    const imagesToPreload = [projectExample1, projectExample2, projectExample3];
+    let loadedCount = 0;
+
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loadedCount++;
+        // Once all images are loaded, update state
+        if (loadedCount === imagesToPreload.length) {
+          setImagesLoaded(true);
+        }
+      };
+    });
+  }, []); // Run once on component mount
 
   // Animate frame transition when activeFrame changes
   useEffect(() => {

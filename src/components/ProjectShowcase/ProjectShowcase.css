@@ -65,6 +65,7 @@
 /* Home frame - position title higher up like typical title placement */
 .showcase-home {
   justify-content: flex-start; /* Align to top instead of center */
+  gap: 1rem; /* Closer spacing between title and paragraph */
 }
 
 /* Home frame styles */
@@ -139,7 +140,7 @@
   font-weight: var(--weight-semi-bold);
   color: var(--color-text);
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Simple border by default */
+  border: 2px solid rgba(255, 255, 255, 0.2); /* 2px border to match hover state */
   padding: 0.5rem 1.5rem;
   border-radius: 2rem;
   cursor: pointer;
@@ -150,7 +151,7 @@
 /* Hover effect for control buttons - animated gradient flow */
 .control-btn:hover {
   opacity: 1;
-  border: 2px solid transparent; /* Switch to gradient border on hover */
+  border: 2px solid transparent; /* Same width border - no jump */
   background-image: linear-gradient(var(--color-background-dark), var(--color-background-dark)), 
                     linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 33%, var(--color-secondary) 66%, var(--color-primary) 100%); /* Extended gradient that loops */
   background-origin: border-box;
