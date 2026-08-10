@@ -3,7 +3,7 @@
 // Features a full-screen background with glassmorphic effect
 
 import * as React from "react";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import AnimatedBackground from "./AnimatedBackground";
 import logoSvg from "../../images/logo.svg";
 import "./LandingPage.css";
@@ -20,9 +20,19 @@ interface LandingPageProps {}
 // React.FC (Function Component) ensures proper typing for React components
 const LandingPage: React.FC<LandingPageProps> = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const maskRef = useRef<HTMLDivElement | null>(null);
+  const [disableBackgroundAnimation, setDisableBackgroundAnimation] = useState(false);
+  const animationPausedRef = useRef(false);
+
+  const updateBackgroundPaused = (paused: boolean) => {
+    if (animationPausedRef.current !== paused) {
+      animationPausedRef.current = paused;
+      setDisableBackgroundAnimation(paused);
+    }
+  };
 
   useLayoutEffect(() => {
-    if (!sectionRef.current) return;
+    if (!sectionRef.current || !maskRef.current) return;
 
     const ctx = gsap.context(() => {
       gsap.timeline({
@@ -33,12 +43,19 @@ const LandingPage: React.FC<LandingPageProps> = () => {
           scrub: 1,
           pin: true,
           anticipatePin: 1,
+          onUpdate(self) {
+            const isAtTop = self.progress <= 0.001;
+            updateBackgroundPaused(!isAtTop);
+          },
+          onRefresh(self) {
+            const isAtTop = self.progress <= 0.001;
+            updateBackgroundPaused(!isAtTop);
+          },
         },
-      }).to(sectionRef.current, {
+      }).to(maskRef.current, {
         scale: 0.35,
         ease: "power3.out",
         transformOrigin: "center center",
-        borderRadius: "2rem",
         boxShadow: "0 40px 120px rgba(0, 0, 0, 0.35)",
       });
     }, sectionRef);
@@ -60,36 +77,41 @@ const LandingPage: React.FC<LandingPageProps> = () => {
 
   return (
     <section ref={sectionRef} className="landing-page">
-      {/* Background container - positioned absolutely to fill the section */}
-      <div className="landing-page-background-wrapper">
-        {/* Animated concentric circles background */}
-        <AnimatedBackground />
-      </div>
-      
-      {/* Glassmorphic overlay - creates blurred effect over background */}
-      <div className="landing-page-glass-overlay" />
-      
-      {/* Content overlay container - for text/content on top */}
-      <div className="landing-page-content">
-        {/* Logo SVG */}
-        <img src={logoSvg} alt="Maddy Design" className="landing-page-logo" />
+      <div ref={maskRef} className="landing-page-mask">
+        {/* Thin frame that becomes visible only when the page is zoomed out */}
+        <div className={`landing-page-frame ${disableBackgroundAnimation ? "is-visible" : ""}`} />
+
+        {/* Background container - positioned absolutely to fill the section */}
+        <div className="landing-page-background-wrapper">
+          {/* Animated concentric circles background */}
+          <AnimatedBackground disableAnimation={disableBackgroundAnimation} />
+        </div>
         
-        {/* Main headline with colored keywords */}
-        <h2 className="landing-page-headline">
-          Need a <span className="highlight-purple">modern,</span>
-          <br />
-          <span className="highlight-cyan">professional</span> website?
-        </h2>
+        {/* Glassmorphic overlay - creates blurred effect over the background */}
+        <div className="landing-page-glass-overlay" />
         
-        {/* Subline/services list */}
-        <p className="landing-page-subline">
-          Custom websites - Brand identity - Photo editing
-        </p>
-        
-        {/* Call-to-action button - scrolls to projects section on click */}
-        <button className="landing-page-cta" onClick={scrollToProjects}>
-          Begin
-        </button>
+        {/* Content overlay container - for text/content on top */}
+        <div className="landing-page-content">
+          {/* Logo SVG */}
+          <img src={logoSvg} alt="Maddy Design" className="landing-page-logo" />
+          
+          {/* Main headline with colored keywords */}
+          <h2 className="landing-page-headline">
+            Need a <span className="highlight-purple">modern,</span>
+            <br />
+            <span className="highlight-cyan">professional</span> website?
+          </h2>
+          
+          {/* Subline/services list */}
+          <p className="landing-page-subline">
+            Custom websites - Brand identity - Photo editing
+          </p>
+          
+          {/* Call-to-action button - scrolls to projects section on click */}
+          <button className="landing-page-cta" onClick={scrollToProjects}>
+            Begin
+          </button>
+        </div>
       </div>
     </section>
   );
