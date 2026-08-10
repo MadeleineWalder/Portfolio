@@ -4,17 +4,20 @@
 // Colors match exact Figma design
 
 import * as React from "react";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import "./AnimatedBackground.css";
 
 // Define the props interface for type safety
-interface AnimatedBackgroundProps {}
+interface AnimatedBackgroundProps {
+  disableAnimation?: boolean;
+}
 
 // React Functional Component with TypeScript
-const AnimatedBackground: React.FC<AnimatedBackgroundProps> = () => {
+const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ disableAnimation = false }) => {
   // Create refs for each of the 17 circles to animate with GSAP
   // Refs allow us to target specific DOM elements for animation
+  const tweensRef = useRef<gsap.core.Tween[]>([]);
   const circle1Ref = useRef<HTMLDivElement>(null);
   const circle2Ref = useRef<HTMLDivElement>(null);
   const circle3Ref = useRef<HTMLDivElement>(null);
@@ -35,151 +38,77 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = () => {
 
   // useLayoutEffect runs before the browser paints - ideal for animations
   useLayoutEffect(() => {
-    // Create a GSAP context for better cleanup and scoping
     const ctx = gsap.context(() => {
-      // Animate each circle with a slow pulsing scale effect
-      // Different durations create an organic, flowing feel
-      
-      gsap.to(circle1Ref.current, {
-        scale: 1.02,
-        duration: 8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+      const circleTargets = [
+        circle1Ref.current,
+        circle2Ref.current,
+        circle3Ref.current,
+        circle4Ref.current,
+        circle5Ref.current,
+        circle6Ref.current,
+        circle7Ref.current,
+        circle8Ref.current,
+        circle9Ref.current,
+        circle10Ref.current,
+        circle11Ref.current,
+        circle12Ref.current,
+        circle13Ref.current,
+        circle14Ref.current,
+        circle15Ref.current,
+        circle16Ref.current,
+        circle17Ref.current,
+      ];
 
-      gsap.to(circle2Ref.current, {
-        scale: 1.025,
-        duration: 7.8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+      const configs = [
+        { scale: 1.05, duration: 6.5 },
+        { scale: 1.06, duration: 6.3 },
+        { scale: 1.07, duration: 6.1 },
+        { scale: 1.055, duration: 5.9 },
+        { scale: 1.065, duration: 5.7 },
+        { scale: 1.08, duration: 5.5 },
+        { scale: 1.07, duration: 5.3 },
+        { scale: 1.09, duration: 5.1 },
+        { scale: 1.08, duration: 4.9 },
+        { scale: 1.09, duration: 4.7 },
+        { scale: 1.1, duration: 4.5 },
+        { scale: 1.09, duration: 4.3 },
+        { scale: 1.11, duration: 4.1 },
+        { scale: 1.1, duration: 3.9 },
+        { scale: 1.11, duration: 3.7 },
+        { scale: 1.115, duration: 3.5 },
+        { scale: 1.12, duration: 3.3 },
+      ];
 
-      gsap.to(circle3Ref.current, {
-        scale: 1.03,
-        duration: 7.6,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle4Ref.current, {
-        scale: 1.025,
-        duration: 7.4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle5Ref.current, {
-        scale: 1.03,
-        duration: 7.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle6Ref.current, {
-        scale: 1.035,
-        duration: 7,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle7Ref.current, {
-        scale: 1.03,
-        duration: 6.8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle8Ref.current, {
-        scale: 1.04,
-        duration: 6.6,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle9Ref.current, {
-        scale: 1.035,
-        duration: 6.4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle10Ref.current, {
-        scale: 1.04,
-        duration: 6.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle11Ref.current, {
-        scale: 1.045,
-        duration: 6,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle12Ref.current, {
-        scale: 1.04,
-        duration: 5.8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle13Ref.current, {
-        scale: 1.05,
-        duration: 5.6,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle14Ref.current, {
-        scale: 1.045,
-        duration: 5.4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle15Ref.current, {
-        scale: 1.05,
-        duration: 5.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle16Ref.current, {
-        scale: 1.055,
-        duration: 5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
-
-      gsap.to(circle17Ref.current, {
-        scale: 1.06,
-        duration: 4.8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+      tweensRef.current = circleTargets.map((target, index) =>
+        gsap.to(target, {
+          scale: configs[index].scale,
+          duration: configs[index].duration,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          paused: disableAnimation,
+        })
+      );
     });
 
     // Cleanup function - runs when component unmounts
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      tweensRef.current = [];
+    };
   }, []);
+
+  useEffect(() => {
+    if (!tweensRef.current.length) return;
+
+    tweensRef.current.forEach((tween) => {
+      if (disableAnimation) {
+        tween.pause();
+      } else {
+        tween.play();
+      }
+    });
+  }, [disableAnimation]);
 
   return (
     <div className="animated-background">
