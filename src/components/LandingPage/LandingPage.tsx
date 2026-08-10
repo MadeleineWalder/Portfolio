@@ -14,20 +14,46 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Define the props interface for type safety
 // Currently no props needed, but this makes the component extensible
-interface LandingPageProps {}
+interface LandingPageProps {
+  onZoomReveal?: (active: boolean) => void;
+}
 
 // React Functional Component with TypeScript
 // React.FC (Function Component) ensures proper typing for React components
-const LandingPage: React.FC<LandingPageProps> = () => {
+const LandingPage: React.FC<LandingPageProps> = ({ onZoomReveal }) => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const maskRef = useRef<HTMLDivElement | null>(null);
   const [disableBackgroundAnimation, setDisableBackgroundAnimation] = useState(false);
   const animationPausedRef = useRef(false);
+  const zoomRevealRef = useRef(false);
 
   const updateBackgroundPaused = (paused: boolean) => {
     if (animationPausedRef.current !== paused) {
       animationPausedRef.current = paused;
       setDisableBackgroundAnimation(paused);
+    }
+  };
+
+  const updateGlow = (progress: number) => {
+    if (!maskRef.current) return;
+
+    const clamped = Math.min(Math.max(progress, 0), 1);
+    const strength = 1 - clamped;
+
+    const glowSize = 140 + strength * 240;
+    const glowAlpha = 0.35 + strength * 0.7;
+    const innerGlow = 14 + strength * 42;
+
+    maskRef.current.style.boxShadow =
+      `0 0 ${glowSize}px rgba(0, 244, 253, ${glowAlpha}), ` +
+      `inset 0 0 ${innerGlow}px rgba(0, 244, 253, ${glowAlpha * 0.45}), ` +
+      `0 40px 120px rgba(0, 0, 0, 0.35)`;
+  };
+
+  const updateZoomReveal = (active: boolean) => {
+    if (zoomRevealRef.current !== active) {
+      zoomRevealRef.current = active;
+      onZoomReveal?.(active);
     }
   };
 
@@ -46,34 +72,25 @@ const LandingPage: React.FC<LandingPageProps> = () => {
           onUpdate(self) {
             const isAtTop = self.progress <= 0.001;
             updateBackgroundPaused(!isAtTop);
+            updateGlow(self.progress);
+            updateZoomReveal(self.progress > 0.01);
           },
           onRefresh(self) {
             const isAtTop = self.progress <= 0.001;
             updateBackgroundPaused(!isAtTop);
+            updateGlow(self.progress);
+            updateZoomReveal(self.progress > 0.01);
           },
         },
       }).to(maskRef.current, {
         scale: 0.35,
         ease: "power3.out",
         transformOrigin: "center center",
-        boxShadow: "0 40px 120px rgba(0, 0, 0, 0.35)",
       });
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
-
-  // Smooth scroll function to navigate to projects section
-  // scrollIntoView provides smooth scrolling behavior
-  const scrollToProjects = () => {
-    const projectsSection = document.getElementById("projects");
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ 
-        behavior: "smooth", // Smooth scroll animation
-        block: "start" // Align to top of viewport
-      });
-    }
-  };
 
   return (
     <section ref={sectionRef} className="landing-page">
@@ -106,11 +123,6 @@ const LandingPage: React.FC<LandingPageProps> = () => {
           <p className="landing-page-subline">
             Custom websites - Brand identity - Photo editing
           </p>
-          
-          {/* Call-to-action button - scrolls to projects section on click */}
-          <button className="landing-page-cta" onClick={scrollToProjects}>
-            Begin
-          </button>
         </div>
       </div>
     </section>
