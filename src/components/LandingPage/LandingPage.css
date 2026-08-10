@@ -7,7 +7,7 @@
   width: 100%; /* Full width without causing horizontal scroll */
   height: 100vh; /* Always full viewport height */
   overflow: hidden; /* Prevents any overflow */
-  background-color: var(--color-background-dark); /* Mask background during zoom-out */
+  background-color: transparent; /* Allow content behind to be visible during zoom-out */
   will-change: transform; /* Hint for smooth scroll-based scaling */
   transform-origin: center center; /* Keep scaling centered within the viewport */
 }
@@ -17,7 +17,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: var(--color-background-dark);
+  background-color: transparent; /* Make the mask transparent so background shows through */
   backface-visibility: hidden;
   transform-style: preserve-3d;
   will-change: transform;
@@ -49,6 +49,65 @@
   z-index: 1; /* Places background at the back */
   background-color: var(--color-background-dark); /* Dark background behind circles */
   overflow: hidden; /* Prevents animated circles from spilling outside the mask */
+}
+
+.landing-page-marquee-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 7rem 0;
+}
+
+.landing-page-marquee-row {
+  width: 100%;
+  overflow: hidden;
+  display: block;
+}
+
+.landing-page-marquee-row-1 {
+  transform: translateY(-0.4rem);
+}
+
+.landing-page-marquee-row-2 {
+  transform: translateY(0.4rem);
+}
+
+.landing-page-marquee-track {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: marquee-left 22s linear infinite;
+}
+
+.landing-page-marquee-row-2 .landing-page-marquee-track {
+  animation-duration: 26s;
+  animation-delay: -7s;
+}
+
+.landing-page-marquee-track span {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 2vw, 2.4rem);
+  font-weight: var(--weight-bold);
+  color: rgba(255, 255, 255, 0.14);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  padding-right: 6rem;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* Glassmorphic overlay - creates blurred effect over the background */
