@@ -4,7 +4,6 @@
 import * as React from "react";
 import type { HeadFC, PageProps } from "gatsby";
 import LandingPage from "../components/LandingPage/LandingPage";
-import ProjectShowcase from "../components/ProjectShowcase/ProjectShowcase";
 import "../styles/global.css"; // Import global styles
 import "./index.css"; // Import page-specific styles
 
@@ -15,9 +14,16 @@ const IndexPage: React.FC<PageProps> = () => {
     <main>
       {/* Landing/Hero section with background image */}
       <LandingPage />
-      
-      {/* Projects section with control panel to switch between designs */}
-      <ProjectShowcase />
+
+      {/* Scroll target section after the landing animation completes */}
+      <section id="projects" className="page-section">
+        <div className="page-section-content">
+          <h2>Explore the portfolio</h2>
+          <p>
+            Scroll down to continue building the website and reveal the next section.
+          </p>
+        </div>
+      </section>
     </main>
   );
 };

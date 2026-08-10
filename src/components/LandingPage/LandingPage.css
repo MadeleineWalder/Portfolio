@@ -7,6 +7,8 @@
   width: 100%; /* Full width without causing horizontal scroll */
   height: 100vh; /* Always full viewport height */
   overflow: hidden; /* Prevents any overflow */
+  will-change: transform; /* Hint for smooth scroll-based scaling */
+  transform-origin: center center; /* Keep scaling centered within the viewport */
 }
 
 /* Background wrapper - absolutely positioned to fill the entire section */
