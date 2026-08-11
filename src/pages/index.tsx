@@ -4,6 +4,7 @@
 import * as React from "react";
 import type { HeadFC, PageProps } from "gatsby";
 import LandingPage from "../components/LandingPage/LandingPage";
+import Projects from "../components/Projects/Projects";
 import "../styles/global.css"; // Import global styles
 import "./index.css"; // Import page-specific styles
 
@@ -14,6 +15,9 @@ const IndexPage: React.FC<PageProps> = () => {
     <main>
       {/* Landing/Hero section with animated background and zoom effect */}
       <LandingPage />
+
+      {/* Projects section showcasing portfolio work */}
+      <Projects />
 
       {/* Scroll target section after the landing animation completes */}
       <section id="projects" className="page-section">

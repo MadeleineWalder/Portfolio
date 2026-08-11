@@ -1,0 +1,109 @@
+/* Projects Component Styles */
+/* Full-viewport pinned section with absolutely positioned staggered cards */
+
+/* Full-screen stage - overflow hidden keeps off-screen cards invisible */
+.projects-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.projects-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.project-cluster {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.projects-title {
+  position: absolute;
+  top: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: var(--weight-extra-light);
+  color: var(--color-text);
+  margin: 0;
+  z-index: 2;
+}
+
+.projects-highlight {
+  font-weight: var(--weight-extra-bold);
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cards are absolutely positioned - left/top/width set inline via cardData */
+.project-card {
+  position: absolute;
+  aspect-ratio: 16 / 9;
+  border: 4px solid transparent;
+  border-radius: 1rem;
+  /* Gradient border trick: layer 1 = solid fill, layer 2 = gradient border */
+  background-image:
+    linear-gradient(var(--color-background), var(--color-background)),
+    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 33%, var(--color-secondary) 66%, var(--color-primary) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100%, 200% 100%;
+  background-position: 0 0, 0% 0%;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+  animation: project-gradient-flow 2s linear infinite;
+}
+
+@keyframes project-gradient-flow {
+  0%   { background-position: 0 0, 0% 0%; }
+  100% { background-position: 0 0, 200% 0%; }
+}
+
+/* Placeholder fill - swap for <img> with object-fit: cover when real images are added */
+.project-card-image {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.6rem;
+  background: linear-gradient(135deg, rgba(0, 244, 253, 0.06) 0%, rgba(144, 153, 251, 0.06) 100%);
+}
+
+/* Mobile: revert to stacked layout */
+@media (max-width: 768px) {
+  .projects-section {
+    height: auto;
+    padding: 4rem 1.5rem;
+    overflow: visible;
+  }
+
+  .projects-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: auto;
+  }
+
+  .projects-title {
+    position: static;
+    transform: none;
+    white-space: normal;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .project-card {
+    position: static;
+    width: 100% !important;
+  }
+}
