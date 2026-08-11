@@ -79,7 +79,7 @@ body {
   -webkit-font-smoothing: antialiased; /* Smoother fonts on Mac */
   -moz-osx-font-smoothing: grayscale; /* Smoother fonts on Mac */
   line-height: 1.6; /* Comfortable line spacing for readability */
-  background-color: var(--color-background-dark); /* Uses CSS variable - change once, affects everywhere */
+  background-color: var(--color-background); /* Uses CSS variable - change once, affects everywhere */
   color: var(--color-text); /* Uses CSS variable for text color */
 }
 
@@ -107,7 +107,7 @@ body {
   --color-secondary: #FF8CE2; /* Pink - secondary accent */
   --color-tertiary: #9099FB; /* Purple - tertiary accent */
   --color-text: #FFFFFF; /* White - main text color */
-  --color-background: #001943; /* Dark Blue - secondary background */
+  --color-background: #00162A; /* Dark Blue - secondary background */
   --color-background-dark: #000A13; /* Very Dark Blue - primary background */
   
   /* Spacing - consistent spacing scale */
