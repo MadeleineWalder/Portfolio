@@ -24,15 +24,12 @@ A modern, minimal portfolio website showcasing web development projects and skil
 
 - 🎨 Modern glassmorphic design with 40px blur effects
 - 📱 Fully responsive across all device sizes
-- ⚡ Optimized images with Gatsby Image
-- 🎭 Smooth GSAP animations (concentric circles, horizontal lines, frame transitions)
-- 🖼️ Project showcase with frame switching (Home + 3 example frames)
+- 🎭 GSAP scroll choreography (zoom-out hero, marquee motion, staged card reveal)
+- 🖼️ Integrated project-card reveal scene inside LandingPage
 - 🌊 Animated gradient border effects on interactive elements
-- ♿ Accessibility-focused
-- 🌙 Dark theme design
+- 🌙 Dark visual theme
 - 🔤 Custom typography with web fonts (Playwrite US Trad, Mukta)
-- 📊 Modular component architecture
-- 🚀 Fast loading times (optimized for performance)
+- 🎬 Unified scroll-scene architecture for immersive transitions
 
 ---
 
@@ -66,17 +63,14 @@ Custom fonts are stored in `src/fonts/` as WOFF2 files for optimal performance.
 ```
 Portfolio/
 ├── src/
-│   ├── components/          # Reusable React components
-│   │   ├── LandingPage/     # Hero section with animated concentric circles
-│   │   │   ├── AnimatedBackground.tsx    # 17 concentric circles with GSAP pulsing
-│   │   │   ├── LandingPage.tsx
-│   │   │   └── LandingPage.css
-│   │   └── ProjectShowcase/ # Project showcase with frame switching
-│   │       ├── AnimatedLines.tsx         # 7 horizontal flowing lines with GSAP
-│   │       ├── ProjectShowcase.tsx
-│   │       └── ProjectShowcase.css
+│   ├── components/
+│   │   └── LandingPage/     # Unified scroll scene (hero + project cards)
+│   │       ├── AnimatedBackground.tsx    # 17 concentric circles with GSAP pulsing
+│   │       ├── AnimatedBackground.css
+│   │       ├── LandingPage.tsx           # Main pinned scroll choreography
+│   │       └── LandingPage.css
 │   ├── fonts/               # Custom font files (WOFF2)
-│   ├── images/              # Image assets (logo, lines, project examples)
+│   ├── images/              # Image assets (logos, UI graphics)
 │   ├── pages/               # Gatsby pages (file-based routing)
 │   │   ├── index.tsx        # Homepage
 │   │   └── 404.tsx          # 404 error page
@@ -123,12 +117,14 @@ Portfolio/
 ## 🧩 Key Components
 
 ### LandingPage
-Hero section featuring:
+Unified scroll scene featuring:
 - Animated concentric circles background (17 circles, exact Figma sizes)
 - Glassmorphic blur overlay (40px)
-- Logo, headline, subline, and CTA button
-- Animated gradient border on CTA button (flows on hover)
-- Smooth scroll navigation to projects section
+- Hero frame zoom-out tied to scroll
+- Marquee/background layer shift during transition
+- Top-left persistent logo overlay in zoomed-out stage
+- Staggered bottom-up project-card reveal tied directly to scroll
+- Integrated project title reveal aligned with card entrance
 
 ### AnimatedBackground
 Background component with 17 pulsing concentric circles:
@@ -136,21 +132,6 @@ Background component with 17 pulsing concentric circles:
 - Responsive positioning using `translateX()` media queries
 - Exact Figma pixel sizes and color values
 - Creates organic, flowing visual effect
-
-### ProjectShowcase
-Portfolio project display section featuring:
-- 4-frame switching system (Home + 3 Examples)
-- Control panel with animated gradient borders
-- Frame transition animations (fade, scale, slide-up)
-- Glassmorphic blur overlay matching landing page
-- Image glow effects (varying intensity per example)
-
-### AnimatedLines
-Horizontal flowing lines background for home frame:
-- 7 PNG line images imported from Figma exports
-- GSAP vertical floating animations (y-axis only)
-- 100% width, 4% vertical spacing with heavy overlap
-- Z-index layered 1-7 (line-1 at back, line-7 at front)
 
 ---
 
@@ -164,28 +145,17 @@ Horizontal flowing lines background for home frame:
 
 ---
 
-## 🏗️ Component Architecture
+## 🏗️ Architecture
 
-### Component Naming Convention
+### Scene-First Approach
 
-Components follow a descriptive, functional naming pattern:
+The homepage now favors a **single cohesive scroll scene** over many small independent sections.
 
-- ✅ `LandingPage` - Describes what it does
-- ✅ `HeroSection` - Describes its purpose
-- ❌ `HomeSection1` - Too generic, tied to page location
+- Use larger scene components when motion continuity is the priority
+- Split into smaller components only when it improves clarity without breaking the flow
+- Keep scene internals organized with clear class naming and focused animation phases
 
-### Component Structure
-
-Each component has its own folder containing:
-- `ComponentName.tsx` - TypeScript React component
-- `ComponentName.css` - Component-specific styles
-
-Example:
-```
-LandingPage/
-├── LandingPage.tsx
-└── LandingPage.css
-```
+For scene components, keep logic consolidated when interactions are tightly coupled, and extract only genuinely reusable units (for example `AnimatedBackground`).
 
 ---
 
@@ -199,13 +169,12 @@ The project uses **GSAP (GreenSock Animation Platform)** for all animations foll
 - **useLayoutEffect** for animation initialization (runs before browser paint)
 - **GSAP context** for proper cleanup on unmount (`ctx.revert()`)
 - **useRef** to target DOM elements (no global selectors like querySelector)
-- **Varied timing** on repeated animations for organic, natural feel
 - **Gatsby SSR-safe** - animations only run in browser environment
 
 **Animation patterns used:**
 - Pulsing circles (scale animation with yoyo)
-- Flowing lines (vertical y-axis movement with yoyo)
-- Frame transitions (fade + scale + slide with one-time animation)
+- Scroll-scrubbed scene transitions (zoom, vertical layer shifts)
+- Staggered bottom-up card reveals linked to user scroll
 - Gradient border flow (CSS keyframe animation on hover)
 
 ### Responsive Design
@@ -225,21 +194,9 @@ The project uses **GSAP (GreenSock Animation Platform)** for all animations foll
 - Animated gradient borders using dual background layers
 - Space between elements using `gap`, `padding`, or `margin` (not `line-height`)
 
-### Layout Patterns
-
-- **Glassmorphic overlay structure:**
-  1. Background layer (z-index: 1)
-  2. Glass overlay with blur (z-index: 2)
-  3. Content layer (z-index: 3+)
-  
-- **Full-screen sections:** `width: 100%`, `height: 100vh`, `overflow: hidden`
-- **Flexbox centering:** `display: flex`, `align-items: center`, `justify-content: center`
-- **Component-specific z-index:** Lines 1-7 within their container, controls at 10
-
 ### TypeScript
 
-- Add helpful comments to explain TypeScript features
-- Define proper interfaces for component props
+- Define clear interfaces for component props
 - Use strong typing throughout
 
 ---
@@ -264,25 +221,25 @@ public/
 
 ### ✅ Completed
 
-- Landing page with animated concentric circles background (17 circles with GSAP)
+- Unified LandingPage scroll scene with pinned progression
+- Animated concentric circles background (17 circles with GSAP)
 - Glassmorphic overlay effect (40px blur)
-- ProjectShowcase section with 4-frame switching system (Home + 3 Examples)
-- AnimatedLines background for home frame (7 horizontal flowing PNG lines)
-- Smooth frame transitions with GSAP (fade, scale, slide-up)
-- Animated gradient border hover effect (flowing color cycle)
-- Custom white glow effects on project images (varying intensity per example)
-- Control panel with gradient borders on hover and active states
-- Smooth scroll navigation from landing page to projects section
+- Scroll-driven zoom-out hero/frame transition
+- Scroll-driven marquee/background vertical shift
+- Persistent top-left logo overlay in zoomed-out stage
+- Staggered bottom-up project-card reveal integrated into scene
+- Project title reveal integrated with project-card stage
+- Animated gradient border effects on interactive elements
 
 ### 🚧 Next Steps
 
-- Implement GSAP scroll-triggered animations
-- Add additional sections (About, Contact, Skills)
+- Replace placeholder project cards with real project content/media
+- Fine-tune cross-device timing and spacing for scene choreography
+- Add additional sections (About, Contact, Skills) after the landing scene
 - Add navigation menu
 - Create individual project detail pages
 - Add contact form with Netlify Forms
-- Integrate analytics
-- Add more project examples
+- Integrate analytics (optional)
 - Add blog section (optional)
 
 ---
@@ -290,10 +247,10 @@ public/
 ## 📝 Notes
 
 - **Language:** English (all content)
-- **Modular Design:** Built for easy updates and scalability
+- **Architecture Direction:** Scene-first, scroll-choreographed homepage with fewer larger components where needed
 - **Custom Fonts:** Stored locally for performance and offline capability
 - **Image Optimization:** All images processed through Gatsby Image for optimal loading
 
 ---
 
-**Last Updated:** March 8, 2026
+**Last Updated:** August 12, 2026
