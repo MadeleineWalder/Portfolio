@@ -256,7 +256,13 @@ const LandingPage: React.FC = () => {
             <div
               key={index}
               className="landing-page-project-card-shell"
-              style={{ left: card.left, width: card.width, bottom: card.bottom, zIndex: card.enterOrder + 1 }}
+              style={{
+                left: card.left,
+                width: card.width,
+                bottom: card.bottom,
+                zIndex: card.enterOrder + 1,
+                opacity: 0,
+              }}
             >
               <div className="landing-page-project-card">
                 <div className="landing-page-project-card-image" />
