@@ -288,6 +288,7 @@
   position: absolute;
   aspect-ratio: 16 / 9;
   pointer-events: auto;
+  opacity: 0;
 }
 
 .landing-page-project-card {
