@@ -24,6 +24,10 @@ const projectCardData = [
 
 const orderedProjectCardData = [...projectCardData].sort((a, b) => a.enterOrder - b.enterOrder);
 
+// Timeline years for the Work Experience section.
+// We keep labels simple for now and can add detailed content later.
+const timelineYearData = ["2021", "2022", "2023", "2024", "2025", "2026"];
+
 // React Functional Component with TypeScript
 // React.FC (Function Component) ensures proper typing for React components
 const LandingPage: React.FC = () => {
@@ -32,6 +36,7 @@ const LandingPage: React.FC = () => {
   const marqueeRef = useRef<HTMLDivElement | null>(null);
   const logoOverlayRef = useRef<HTMLDivElement | null>(null);
   const projectsLayerRef = useRef<HTMLDivElement | null>(null);
+  const timelineLayerRef = useRef<HTMLDivElement | null>(null);
   const [disableBackgroundAnimation, setDisableBackgroundAnimation] = useState(false);
   const animationPausedRef = useRef(false);
 
@@ -76,8 +81,30 @@ const LandingPage: React.FC = () => {
       const projectsCluster = sectionRef.current?.querySelector(
         ".landing-page-projects-cluster"
       ) as HTMLElement | null;
+      const projectsLayer = sectionRef.current?.querySelector(
+        ".landing-page-projects-layer"
+      ) as HTMLElement | null;
+      const timelineLayer = sectionRef.current?.querySelector(
+        ".landing-page-timeline-layer"
+      ) as HTMLElement | null;
+      const timelineTrack = sectionRef.current?.querySelector(
+        ".landing-page-timeline-track"
+      ) as HTMLElement | null;
+      const timelineViewport = sectionRef.current?.querySelector(
+        ".landing-page-timeline-viewport"
+      ) as HTMLElement | null;
       const projectCards = gsap.utils.toArray<HTMLElement>(".landing-page-project-card-shell");
-      if (!projectsTitle || !projectsCluster || projectCards.length === 0) return;
+      if (
+        !projectsTitle ||
+        !projectsCluster ||
+        !projectsLayer ||
+        !timelineLayer ||
+        !timelineTrack ||
+        !timelineViewport ||
+        projectCards.length === 0
+      ) {
+        return;
+      }
 
       const centerProjectCluster = () => {
         let minLeft = Number.POSITIVE_INFINITY;
@@ -95,6 +122,20 @@ const LandingPage: React.FC = () => {
         gsap.set(projectsCluster, { x: viewportCenter - groupCenter });
       };
 
+      // Calculate the x position that centers the final year (2026) in the viewport.
+      // This value is used for the long horizontal scrub phase.
+      const getTimelineFinalX = () => {
+        const finalYearNode = timelineTrack.querySelector(
+          '[data-timeline-year="2026"]'
+        ) as HTMLElement | null;
+
+        if (!finalYearNode) return 0;
+
+        const viewportWidth = timelineViewport.offsetWidth;
+        const finalNodeCenter = finalYearNode.offsetLeft + finalYearNode.offsetWidth / 2;
+        return viewportWidth / 2 - finalNodeCenter;
+      };
+
       centerProjectCluster();
 
       // Start all project items fully below the viewport so they rise up with scroll.
@@ -110,11 +151,21 @@ const LandingPage: React.FC = () => {
         autoAlpha: 1,
       });
 
+      // Keep the timeline fully off-screen to the right until the projects phase is complete.
+      gsap.set(timelineLayer, {
+        xPercent: 110,
+        autoAlpha: 1,
+      });
+
+      gsap.set(timelineTrack, {
+        x: 0,
+      });
+
       gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=260%",
+          end: "+=430%",
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -169,6 +220,36 @@ const LandingPage: React.FC = () => {
             },
           },
           "<"
+        )
+        // Intentional pause in scroll-progress after cards settle in the center.
+        .to({}, { duration: 0.32 })
+        .to(
+          projectsLayer,
+          {
+            x: () => -window.innerWidth * 1.15,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          ">"
+        )
+        .to(
+          timelineLayer,
+          {
+            xPercent: 0,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          "<"
+        )
+        // Scrub horizontally through the timeline until 2026 sits in the center.
+        .to(
+          timelineTrack,
+          {
+            x: () => getTimelineFinalX(),
+            ease: "none",
+            duration: 2.3,
+          },
+          ">"
         );
     }, sectionRef);
 
@@ -269,6 +350,23 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div ref={timelineLayerRef} className="landing-page-timeline-layer">
+        <h2 className="landing-page-timeline-title">
+          Work <span className="landing-page-projects-highlight">Experience</span>
+        </h2>
+        <div className="landing-page-timeline-viewport">
+          <div className="landing-page-timeline-track">
+            <div className="landing-page-timeline-line" />
+            {timelineYearData.map((year) => (
+              <div key={year} className="landing-page-timeline-year" data-timeline-year={year}>
+                <span className="landing-page-timeline-dot" />
+                <span className="landing-page-timeline-label">{year}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
