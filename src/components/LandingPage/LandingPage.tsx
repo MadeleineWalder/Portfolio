@@ -8,6 +8,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import AnimatedBackground from "./AnimatedBackground";
 import logoSvg from "../../images/logo.svg";
 import logoTwoLines from "../../images/logo-2-lines.svg";
+import emailButtonSvg from "../../images/email-button.svg";
 import "./LandingPage.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -37,17 +38,18 @@ interface TimelineEntry {
   end: number;
   lane: number;
   color: string;
+  edgeCut?: "left" | "right";
 }
 
 // Timeline rows are data-driven so future edits only require changing this array.
 const timelineEntries: TimelineEntry[] = [
-  { title: "Swedish Language and Civics Courses", start: 2021, end: 2022.45, lane: 0, color: "rgba(216, 221, 230, 0.62)" },
-  { title: "Web Development Course", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
-  { title: "Voluntary Work", start: 2021, end: 2024, lane: 2, color: "rgba(255, 213, 143, 0.9)" },
-  { title: "Web Design Course", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(41, 249, 191, 0.95)" },
-  { title: "Freelance Designer & Developer", start: 2023.5, end: 2026.25, lane: 4, color: "rgba(246, 137, 232, 0.9)" },
-  { title: "Developer Internship", start: 2024.02, end: 2024.5, lane: 5, color: "rgba(148, 157, 255, 0.92)" },
-  { title: "Creative Developer at Adnami", start: 2025.6, end: 2027, lane: 6, color: "rgba(0, 244, 253, 0.95)" },
+  { title: "Swedish Language and Civics Courses at Komvux Malmö", start: 2021, end: 2022.45, lane: 0, color: "rgba(216, 221, 230, 0.62)", edgeCut: "left" },
+  { title: "Web Development Course at Code Institute", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
+  { title: "Live Streaming Platform Moderator (voluntary)", start: 2021, end: 2024, lane: 2, color: "rgba(255, 213, 143, 0.9)" },
+  { title: "Web Design Course on Udemy", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(41, 249, 191, 0.95)" },
+  { title: "Freelance Web Designer & Developer", start: 2023.5, end: 2026.25, lane: 4, color: "rgba(246, 137, 232, 0.9)" },
+  { title: "Web Developer Internship at 2Toucans", start: 2024.02, end: 2024.5, lane: 5, color: "rgba(148, 157, 255, 0.92)" },
+  { title: "Creative Developer at Adnami", start: 2025.6, end: 2027, lane: 6, color: "rgba(0, 244, 253, 0.95)", edgeCut: "right" },
 ];
 
 // Generate all axis years from the configured range.
@@ -57,6 +59,7 @@ const timelineYears = Array.from(
 );
 
 const timelineTotalUnits = (timelineEndYear - timelineStartYear) * timelineUnitsPerYear;
+const businessInquiryEmail = "madeleinezoewalder@gmail.com";
 
 // React Functional Component with TypeScript
 // React.FC (Function Component) ensures proper typing for React components
@@ -67,6 +70,7 @@ const LandingPage: React.FC = () => {
   const logoOverlayRef = useRef<HTMLDivElement | null>(null);
   const projectsLayerRef = useRef<HTMLDivElement | null>(null);
   const timelineLayerRef = useRef<HTMLDivElement | null>(null);
+  const inquiriesLayerRef = useRef<HTMLDivElement | null>(null);
   const [disableBackgroundAnimation, setDisableBackgroundAnimation] = useState(false);
   const animationPausedRef = useRef(false);
 
@@ -123,6 +127,9 @@ const LandingPage: React.FC = () => {
       const timelineViewport = sectionRef.current?.querySelector(
         ".landing-page-timeline-viewport"
       ) as HTMLElement | null;
+      const inquiriesLayer = sectionRef.current?.querySelector(
+        ".landing-page-inquiries-layer"
+      ) as HTMLElement | null;
       const projectCards = gsap.utils.toArray<HTMLElement>(".landing-page-project-card-shell");
       if (
         !projectsTitle ||
@@ -131,6 +138,7 @@ const LandingPage: React.FC = () => {
         !timelineLayer ||
         !timelineTrack ||
         !timelineViewport ||
+        !inquiriesLayer ||
         projectCards.length === 0
       ) {
         return;
@@ -164,9 +172,13 @@ const LandingPage: React.FC = () => {
       // Keep vertical scroll length proportional to horizontal distance so
       // long timelines feel scrubby and readable instead of finishing too early.
       const getSceneScrollDistance = () => {
+        const baseSceneDuration = 5.62;
+        const inquiriesPhaseDuration = 1;
+        const durationScale = (baseSceneDuration + inquiriesPhaseDuration) / baseSceneDuration;
         const baseDistance = window.innerHeight * 4.3;
         const timelineTravel = Math.abs(getTimelineFinalX());
-        return Math.round(baseDistance + timelineTravel * 1.3);
+        const timelineDistance = baseDistance + timelineTravel * 1.3;
+        return Math.round(timelineDistance * durationScale);
       };
 
       centerProjectCluster();
@@ -192,6 +204,12 @@ const LandingPage: React.FC = () => {
 
       gsap.set(timelineTrack, {
         x: 0,
+      });
+
+      // Keep the inquiries layer below the viewport until the timeline phase finishes.
+      gsap.set(inquiriesLayer, {
+        y: riseDistance,
+        autoAlpha: 1,
       });
 
       gsap.timeline({
@@ -283,6 +301,24 @@ const LandingPage: React.FC = () => {
             duration: 2.3,
           },
           ">"
+        )
+        .to(
+          timelineLayer,
+          {
+            yPercent: -120,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          ">"
+        )
+        .to(
+          inquiriesLayer,
+          {
+            y: 0,
+            ease: "power2.out",
+            duration: 1,
+          },
+          "<"
         );
     }, sectionRef);
 
@@ -413,10 +449,11 @@ const LandingPage: React.FC = () => {
                   return (
                     <div
                       key={entry.title}
+                      // Use stable metadata for edge cuts so text edits do not break styling.
                       className={`landing-page-timeline-item ${
-                        entry.title === "High school" ? "is-high-school" : ""
+                        entry.edgeCut === "left" ? "is-high-school" : ""
                       } ${
-                        entry.title === "Creative Developer at Adnami" ? "is-adnami" : ""
+                        entry.edgeCut === "right" ? "is-adnami" : ""
                       }`}
                       style={
                         {
@@ -458,6 +495,28 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div ref={inquiriesLayerRef} className="landing-page-inquiries-layer">
+        <div className="landing-page-inquiries-content">
+          <h2 className="landing-page-inquiries-title">
+            Business <span className="landing-page-projects-highlight">inquiries</span>
+          </h2>
+          <a className="landing-page-inquiries-email" href={`mailto:${businessInquiryEmail}`}>
+            <img
+              src={emailButtonSvg}
+              alt=""
+              aria-hidden="true"
+              className="landing-page-inquiries-email-icon"
+            />
+            {businessInquiryEmail}
+          </a>
+          <p className="landing-page-inquiries-note">
+            Why don't I have a contact form?
+            <br />
+            Because it gets spammed by bots and ironically people asking me if I need a website.
+          </p>
         </div>
       </div>
     </section>
