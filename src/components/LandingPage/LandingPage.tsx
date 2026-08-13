@@ -8,6 +8,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import AnimatedBackground from "./AnimatedBackground";
 import logoSvg from "../../images/logo.svg";
 import logoTwoLines from "../../images/logo-2-lines.svg";
+import emailButtonSvg from "../../images/email-button.svg";
 import "./LandingPage.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -58,6 +59,7 @@ const timelineYears = Array.from(
 );
 
 const timelineTotalUnits = (timelineEndYear - timelineStartYear) * timelineUnitsPerYear;
+const businessInquiryEmail = "madeleinezoewalder@gmail.com";
 
 // React Functional Component with TypeScript
 // React.FC (Function Component) ensures proper typing for React components
@@ -68,6 +70,7 @@ const LandingPage: React.FC = () => {
   const logoOverlayRef = useRef<HTMLDivElement | null>(null);
   const projectsLayerRef = useRef<HTMLDivElement | null>(null);
   const timelineLayerRef = useRef<HTMLDivElement | null>(null);
+  const inquiriesLayerRef = useRef<HTMLDivElement | null>(null);
   const [disableBackgroundAnimation, setDisableBackgroundAnimation] = useState(false);
   const animationPausedRef = useRef(false);
 
@@ -124,6 +127,9 @@ const LandingPage: React.FC = () => {
       const timelineViewport = sectionRef.current?.querySelector(
         ".landing-page-timeline-viewport"
       ) as HTMLElement | null;
+      const inquiriesLayer = sectionRef.current?.querySelector(
+        ".landing-page-inquiries-layer"
+      ) as HTMLElement | null;
       const projectCards = gsap.utils.toArray<HTMLElement>(".landing-page-project-card-shell");
       if (
         !projectsTitle ||
@@ -132,6 +138,7 @@ const LandingPage: React.FC = () => {
         !timelineLayer ||
         !timelineTrack ||
         !timelineViewport ||
+        !inquiriesLayer ||
         projectCards.length === 0
       ) {
         return;
@@ -165,9 +172,13 @@ const LandingPage: React.FC = () => {
       // Keep vertical scroll length proportional to horizontal distance so
       // long timelines feel scrubby and readable instead of finishing too early.
       const getSceneScrollDistance = () => {
+        const baseSceneDuration = 5.62;
+        const inquiriesPhaseDuration = 1;
+        const durationScale = (baseSceneDuration + inquiriesPhaseDuration) / baseSceneDuration;
         const baseDistance = window.innerHeight * 4.3;
         const timelineTravel = Math.abs(getTimelineFinalX());
-        return Math.round(baseDistance + timelineTravel * 1.3);
+        const timelineDistance = baseDistance + timelineTravel * 1.3;
+        return Math.round(timelineDistance * durationScale);
       };
 
       centerProjectCluster();
@@ -193,6 +204,12 @@ const LandingPage: React.FC = () => {
 
       gsap.set(timelineTrack, {
         x: 0,
+      });
+
+      // Keep the inquiries layer below the viewport until the timeline phase finishes.
+      gsap.set(inquiriesLayer, {
+        y: riseDistance,
+        autoAlpha: 1,
       });
 
       gsap.timeline({
@@ -284,6 +301,24 @@ const LandingPage: React.FC = () => {
             duration: 2.3,
           },
           ">"
+        )
+        .to(
+          timelineLayer,
+          {
+            yPercent: -120,
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          ">"
+        )
+        .to(
+          inquiriesLayer,
+          {
+            y: 0,
+            ease: "power2.out",
+            duration: 1,
+          },
+          "<"
         );
     }, sectionRef);
 
@@ -460,6 +495,28 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div ref={inquiriesLayerRef} className="landing-page-inquiries-layer">
+        <div className="landing-page-inquiries-content">
+          <h2 className="landing-page-inquiries-title">
+            Business <span className="landing-page-projects-highlight">inquiries</span>
+          </h2>
+          <a className="landing-page-inquiries-email" href={`mailto:${businessInquiryEmail}`}>
+            <img
+              src={emailButtonSvg}
+              alt=""
+              aria-hidden="true"
+              className="landing-page-inquiries-email-icon"
+            />
+            {businessInquiryEmail}
+          </a>
+          <p className="landing-page-inquiries-note">
+            Why don't I have a contact form?
+            <br />
+            Because it gets spammed by bots and ironically people asking me if I need a website.
+          </p>
         </div>
       </div>
     </section>

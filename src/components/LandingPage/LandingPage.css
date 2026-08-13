@@ -503,6 +503,84 @@
   opacity: 0.2;
 }
 
+.landing-page-inquiries-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-page-inquiries-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3.4vh;
+  text-align: center;
+}
+
+.landing-page-inquiries-title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: var(--weight-extra-light);
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.landing-page-inquiries-email {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7vw;
+  text-decoration: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.6vw, 1.4rem);
+  font-weight: var(--weight-light);
+  letter-spacing: 0.01em;
+  border: 0.22vh solid transparent;
+  border-radius: 1.3rem;
+  background-image:
+    linear-gradient(var(--color-background), var(--color-background)),
+    linear-gradient(90deg, var(--color-primary) 0%, var(--color-tertiary) 33%, var(--color-secondary) 66%, var(--color-primary) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100%, 200% 100%;
+  background-position: 0 0, 0% 0%;
+  padding: 1.05vh 2.2vw;
+  box-shadow: 0 0 24px rgba(0, 244, 253, 0.12);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.landing-page-inquiries-email-icon {
+  width: 1.2em;
+  height: 1.2em;
+  flex-shrink: 0;
+}
+
+.landing-page-inquiries-email:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.16), 0 0 34px rgba(0, 244, 253, 0.12);
+  animation: project-gradient-flow 2s linear infinite;
+}
+
+.landing-page-inquiries-note {
+  margin: 0;
+  max-width: 62ch;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-body);
+  font-size: clamp(0.78rem, 1.2vw, 1rem);
+  font-weight: var(--weight-light);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
 /* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
   .landing-page-content {
@@ -553,5 +631,20 @@
 
   .landing-page-timeline-year-label {
     font-size: 1.6vh;
+  }
+
+  .landing-page-inquiries-email {
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    padding: 1.2vh 5vw;
+    gap: 1.8vw;
+  }
+
+  .landing-page-inquiries-content {
+    gap: 2.8vh;
+  }
+
+  .landing-page-inquiries-note {
+    font-size: clamp(0.75rem, 2.9vw, 0.92rem);
+    max-width: 88%;
   }
 }
