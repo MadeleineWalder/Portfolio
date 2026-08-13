@@ -37,17 +37,18 @@ interface TimelineEntry {
   end: number;
   lane: number;
   color: string;
+  edgeCut?: "left" | "right";
 }
 
 // Timeline rows are data-driven so future edits only require changing this array.
 const timelineEntries: TimelineEntry[] = [
-  { title: "Swedish Language and Civics Courses", start: 2021, end: 2022.45, lane: 0, color: "rgba(216, 221, 230, 0.62)" },
-  { title: "Web Development Course", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
-  { title: "Voluntary Work", start: 2021, end: 2024, lane: 2, color: "rgba(255, 213, 143, 0.9)" },
-  { title: "Web Design Course", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(41, 249, 191, 0.95)" },
-  { title: "Freelance Designer & Developer", start: 2023.5, end: 2026.25, lane: 4, color: "rgba(246, 137, 232, 0.9)" },
-  { title: "Developer Internship", start: 2024.02, end: 2024.5, lane: 5, color: "rgba(148, 157, 255, 0.92)" },
-  { title: "Creative Developer at Adnami", start: 2025.6, end: 2027, lane: 6, color: "rgba(0, 244, 253, 0.95)" },
+  { title: "Swedish Language and Civics Courses at Komvux Malmö", start: 2021, end: 2022.45, lane: 0, color: "rgba(216, 221, 230, 0.62)", edgeCut: "left" },
+  { title: "Web Development Course at Code Institute", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
+  { title: "Live Streaming Platform Moderator (voluntary)", start: 2021, end: 2024, lane: 2, color: "rgba(255, 213, 143, 0.9)" },
+  { title: "Web Design Course on Udemy", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(41, 249, 191, 0.95)" },
+  { title: "Freelance Web Designer & Developer", start: 2023.5, end: 2026.25, lane: 4, color: "rgba(246, 137, 232, 0.9)" },
+  { title: "Web Developer Internship at 2Toucans", start: 2024.02, end: 2024.5, lane: 5, color: "rgba(148, 157, 255, 0.92)" },
+  { title: "Creative Developer at Adnami", start: 2025.6, end: 2027, lane: 6, color: "rgba(0, 244, 253, 0.95)", edgeCut: "right" },
 ];
 
 // Generate all axis years from the configured range.
@@ -413,10 +414,11 @@ const LandingPage: React.FC = () => {
                   return (
                     <div
                       key={entry.title}
+                      // Use stable metadata for edge cuts so text edits do not break styling.
                       className={`landing-page-timeline-item ${
-                        entry.title === "High school" ? "is-high-school" : ""
+                        entry.edgeCut === "left" ? "is-high-school" : ""
                       } ${
-                        entry.title === "Creative Developer at Adnami" ? "is-adnami" : ""
+                        entry.edgeCut === "right" ? "is-adnami" : ""
                       }`}
                       style={
                         {
