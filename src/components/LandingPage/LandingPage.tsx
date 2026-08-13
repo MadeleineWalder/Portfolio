@@ -44,7 +44,7 @@ interface TimelineEntry {
 // Timeline rows are data-driven so future edits only require changing this array.
 const timelineEntries: TimelineEntry[] = [
   { title: "Swedish Language and Civics Courses at Komvux Malmö", start: 2021, end: 2022.45, lane: 0, color: "rgba(216, 221, 230, 0.62)", edgeCut: "left" },
-  { title: "Web Development Course at Code Institute", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
+  { title: "Diploma in Web Development at Code Institute", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
   { title: "Live Streaming Platform Moderator (voluntary)", start: 2021, end: 2024, lane: 2, color: "rgba(255, 213, 143, 0.9)" },
   { title: "Web Design Course on Udemy", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(41, 249, 191, 0.95)" },
   { title: "Freelance Web Designer & Developer", start: 2023.5, end: 2026.25, lane: 4, color: "rgba(246, 137, 232, 0.9)" },
@@ -380,14 +380,14 @@ const LandingPage: React.FC = () => {
           
           {/* Main headline with colored keywords */}
           <h2 className="landing-page-headline">
-            Need a <span className="highlight-purple">modern,</span>
+            Welcome to my portfolio
             <br />
-            <span className="highlight-cyan">professional</span> website?
+            as a <span className="highlight-cyan">creative developer.</span>
           </h2>
           
           {/* Subline/services list */}
           <p className="landing-page-subline">
-            Custom websites - Brand identity - Photo editing
+            Ready to start? Scroll to begin :)
           </p>
         </div>
       </div>

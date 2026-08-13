@@ -465,7 +465,6 @@
     var(--color-secondary) 80%,
     #ff8ce228 100%
   );
-  z-index: 2;
 }
 
 .landing-page-timeline-year-marker {
@@ -484,9 +483,8 @@
   width: 0.45vh;
   height: 2.5vh;
   margin-top: calc(-1 * 0.45vh);
-  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+  background: var(--color-text);
   box-shadow: 0 0 12px rgba(0, 244, 253, 0.32);
-  z-index: 1;
 }
 
 .landing-page-timeline-year-label {
