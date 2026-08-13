@@ -24,9 +24,39 @@ const projectCardData = [
 
 const orderedProjectCardData = [...projectCardData].sort((a, b) => a.enterOrder - b.enterOrder);
 
-// Timeline years for the Work Experience section.
-// We keep labels simple for now and can add detailed content later.
-const timelineYearData = ["2021", "2022", "2023", "2024", "2025", "2026"];
+// Define the full timeline range. 2027 is included as a trailing/faded endpoint marker.
+const timelineStartYear = 2021;
+const timelineEndYear = 2027;
+const timelineUnitsPerYear = 24;
+
+// Type-safe shape for each timeline bar item.
+// start/end can include decimals so shorter periods can be represented precisely.
+interface TimelineEntry {
+  title: string;
+  start: number;
+  end: number;
+  lane: number;
+  color: string;
+}
+
+// Timeline rows are data-driven so future edits only require changing this array.
+const timelineEntries: TimelineEntry[] = [
+  { title: "Swedish Language and Civics Courses", start: 2021, end: 2022.45, lane: 0, color: "rgba(216, 221, 230, 0.62)" },
+  { title: "Web Development Course", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
+  { title: "Voluntary Work", start: 2021, end: 2024, lane: 2, color: "rgba(255, 213, 143, 0.9)" },
+  { title: "Web Design Course", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(41, 249, 191, 0.95)" },
+  { title: "Freelance Designer & Developer", start: 2023.5, end: 2026.25, lane: 4, color: "rgba(246, 137, 232, 0.9)" },
+  { title: "Developer Internship", start: 2024.02, end: 2024.5, lane: 5, color: "rgba(148, 157, 255, 0.92)" },
+  { title: "Creative Developer at Adnami", start: 2025.6, end: 2027, lane: 6, color: "rgba(0, 244, 253, 0.95)" },
+];
+
+// Generate all axis years from the configured range.
+const timelineYears = Array.from(
+  { length: timelineEndYear - timelineStartYear + 1 },
+  (_, index) => timelineStartYear + index
+);
+
+const timelineTotalUnits = (timelineEndYear - timelineStartYear) * timelineUnitsPerYear;
 
 // React Functional Component with TypeScript
 // React.FC (Function Component) ensures proper typing for React components
@@ -122,18 +152,21 @@ const LandingPage: React.FC = () => {
         gsap.set(projectsCluster, { x: viewportCenter - groupCenter });
       };
 
-      // Calculate the x position that centers the final year (2026) in the viewport.
-      // This value is used for the long horizontal scrub phase.
+      // Calculate the x position for the true end of timeline scrubbing.
+      // This aligns the track's right edge with the viewport right edge,
+      // so users can scroll through the full horizontal timeline.
       const getTimelineFinalX = () => {
-        const finalYearNode = timelineTrack.querySelector(
-          '[data-timeline-year="2026"]'
-        ) as HTMLElement | null;
+        const viewportWidth = timelineViewport.clientWidth;
+        const trackWidth = timelineTrack.scrollWidth;
+        return Math.min(0, viewportWidth - trackWidth);
+      };
 
-        if (!finalYearNode) return 0;
-
-        const viewportWidth = timelineViewport.offsetWidth;
-        const finalNodeCenter = finalYearNode.offsetLeft + finalYearNode.offsetWidth / 2;
-        return viewportWidth / 2 - finalNodeCenter;
+      // Keep vertical scroll length proportional to horizontal distance so
+      // long timelines feel scrubby and readable instead of finishing too early.
+      const getSceneScrollDistance = () => {
+        const baseDistance = window.innerHeight * 4.3;
+        const timelineTravel = Math.abs(getTimelineFinalX());
+        return Math.round(baseDistance + timelineTravel * 1.3);
       };
 
       centerProjectCluster();
@@ -165,7 +198,7 @@ const LandingPage: React.FC = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=430%",
+          end: () => `+=${getSceneScrollDistance()}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -354,18 +387,76 @@ const LandingPage: React.FC = () => {
       </div>
 
       <div ref={timelineLayerRef} className="landing-page-timeline-layer">
-        <h2 className="landing-page-timeline-title">
-          Work <span className="landing-page-projects-highlight">Experience</span>
-        </h2>
-        <div className="landing-page-timeline-viewport">
-          <div className="landing-page-timeline-track">
-            <div className="landing-page-timeline-line" />
-            {timelineYearData.map((year) => (
-              <div key={year} className="landing-page-timeline-year" data-timeline-year={year}>
-                <span className="landing-page-timeline-dot" />
-                <span className="landing-page-timeline-label">{year}</span>
+        <div className="landing-page-timeline-center-stack">
+          <h2 className="landing-page-timeline-title">
+            Education & work <span className="landing-page-projects-highlight">overview</span>
+          </h2>
+          <div className="landing-page-timeline-viewport">
+            <div className="landing-page-timeline-track">
+              <div
+                className="landing-page-timeline-content"
+                style={
+                  {
+                    "--timeline-total-years": String(timelineEndYear - timelineStartYear),
+                    "--timeline-total-units": String(timelineTotalUnits),
+                  } as React.CSSProperties
+                }
+              >
+                {timelineEntries.map((entry) => {
+                  const startUnit = Math.round((entry.start - timelineStartYear) * timelineUnitsPerYear);
+                  const endUnit = Math.max(
+                    startUnit + 1,
+                    Math.round((entry.end - timelineStartYear) * timelineUnitsPerYear)
+                  );
+                  const barRow = 7 - entry.lane;
+
+                  return (
+                    <div
+                      key={entry.title}
+                      className={`landing-page-timeline-item ${
+                        entry.title === "High school" ? "is-high-school" : ""
+                      } ${
+                        entry.title === "Creative Developer at Adnami" ? "is-adnami" : ""
+                      }`}
+                      style={
+                        {
+                          gridColumn: `${startUnit + 1} / ${endUnit + 1}`,
+                          gridRow: `${barRow}`,
+                          "--item-color": entry.color,
+                        } as React.CSSProperties
+                      }
+                    >
+                      <span className="landing-page-timeline-item-label">{entry.title}</span>
+                    </div>
+                  );
+                })}
+
+                <div className="landing-page-timeline-axis-line" />
+
+                {timelineYears.map((year) => {
+                  const yearUnit = (year - timelineStartYear) * timelineUnitsPerYear + 1;
+
+                  return (
+                    <div
+                      key={year}
+                      className={`landing-page-timeline-year-marker ${
+                        year === timelineEndYear ? "is-muted" : ""
+                      }`}
+                      data-timeline-year={year}
+                      style={
+                        {
+                          gridColumn: `${yearUnit} / ${yearUnit}`,
+                          gridRow: "9",
+                        } as React.CSSProperties
+                      }
+                    >
+                      <span className="landing-page-timeline-year-tick" />
+                      <span className="landing-page-timeline-year-label">{year}</span>
+                    </div>
+                  );
+                })}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
