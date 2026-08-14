@@ -9,6 +9,12 @@ import AnimatedBackground from "./AnimatedBackground";
 import logoSvg from "../../images/logo.svg";
 import logoTwoLines from "../../images/logo-2-lines.svg";
 import emailButtonSvg from "../../images/email-button.svg";
+import figmaLogo from "../../images/figma-logo.png";
+import photoshopLogo from "../../images/photoshop-logo.png";
+import adobeFontsLogo from "../../images/adobe-fonts-logo.png";
+import githubLogo from "../../images/github-logo.png";
+import vscodeLogo from "../../images/vscode-logo.png";
+import netlifyLogo from "../../images/netlify-logo.png";
 import "./LandingPage.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -66,13 +72,16 @@ const businessInquiryEmail = "madeleinezoewalder@gmail.com";
 const LandingPage: React.FC = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const maskRef = useRef<HTMLDivElement | null>(null);
+  const frameRef = useRef<HTMLDivElement | null>(null);
   const marqueeRef = useRef<HTMLDivElement | null>(null);
   const logoOverlayRef = useRef<HTMLDivElement | null>(null);
+  const creativeIntroRef = useRef<HTMLDivElement | null>(null);
   const projectsLayerRef = useRef<HTMLDivElement | null>(null);
   const timelineLayerRef = useRef<HTMLDivElement | null>(null);
   const inquiriesLayerRef = useRef<HTMLDivElement | null>(null);
   const [disableBackgroundAnimation, setDisableBackgroundAnimation] = useState(false);
   const animationPausedRef = useRef(false);
+  const zoomOutStartProgress = 0.38;
 
   const updateBackgroundPaused = (paused: boolean) => {
     if (animationPausedRef.current !== paused) {
@@ -81,18 +90,59 @@ const LandingPage: React.FC = () => {
     }
   };
 
-  const updateLogoOverlay = (progress: number) => {
-    if (!logoOverlayRef.current) return;
-
-    // Keep logo pinned and visible through the full scroll scene once interaction begins.
-    const shouldShow = progress > 0.001;
-    logoOverlayRef.current.style.opacity = shouldShow ? "1" : "0";
-  };
-
   useLayoutEffect(() => {
     if (!sectionRef.current || !maskRef.current) return;
 
     const ctx = gsap.context(() => {
+      const heroContent = sectionRef.current?.querySelector(
+        ".landing-page-content"
+      ) as HTMLElement | null;
+      const creativeIntro = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-intro"
+      ) as HTMLElement | null;
+      const creativeTitle = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-title"
+      ) as HTMLElement | null;
+      const creativeSubtitle = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-subtitle"
+      ) as HTMLElement | null;
+      const creativeLeftColumn = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-column-left"
+      ) as HTMLElement | null;
+      // The logo groups are separate from their headings so they can span the viewport safely.
+      const creativeLeftLogos = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-logos-group-left"
+      ) as HTMLElement | null;
+      const creativeDivider = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-divider"
+      ) as HTMLElement | null;
+      const creativeRightColumn = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-column-right"
+      ) as HTMLElement | null;
+      const creativeRightLogos = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-logos-group-right"
+      ) as HTMLElement | null;
+      // Reveal the icon images individually while leaving their CSS scatter transforms intact.
+      const creativeLeftLogoImages = Array.from(
+        creativeLeftLogos?.querySelectorAll<HTMLImageElement>("img") ?? []
+      );
+      const creativeRightLogoImages = Array.from(
+        creativeRightLogos?.querySelectorAll<HTMLImageElement>("img") ?? []
+      );
+      // The tagline words reveal individually after the tool logos complete their staggered reveal.
+      const creativeTagline = sectionRef.current?.querySelector(
+        ".landing-page-creative-developer-tagline"
+      ) as HTMLElement | null;
+      const creativeTaglineWords = Array.from(
+        creativeTagline?.querySelectorAll<HTMLElement>(
+          ".landing-page-creative-developer-tagline-word"
+        ) ?? []
+      );
+      const creativeTaglineHighlight = creativeTagline?.querySelector(
+        ".landing-page-creative-developer-tagline-highlight"
+      ) as HTMLElement | null;
+      const creativeTaglineDesignWords = creativeTaglineWords.slice(0, 3);
+      const creativeTaglineCodeWords = creativeTaglineWords.slice(4);
       const projectsTitle = sectionRef.current?.querySelector(
         ".landing-page-projects-title"
       ) as HTMLElement | null;
@@ -116,6 +166,22 @@ const LandingPage: React.FC = () => {
       ) as HTMLElement | null;
       const projectCards = gsap.utils.toArray<HTMLElement>(".landing-page-project-card-shell");
       if (
+        !heroContent ||
+        !creativeIntro ||
+        !creativeTitle ||
+        !creativeSubtitle ||
+        !creativeLeftColumn ||
+        !creativeLeftLogos ||
+        creativeLeftLogoImages.length !== 3 ||
+        !creativeDivider ||
+        !creativeRightColumn ||
+        !creativeRightLogos ||
+        creativeRightLogoImages.length !== 3 ||
+        !creativeTagline ||
+        creativeTaglineWords.length !== 7 ||
+        !creativeTaglineHighlight ||
+        creativeTaglineDesignWords.length !== 3 ||
+        creativeTaglineCodeWords.length !== 3 ||
         !projectsTitle ||
         !projectsCluster ||
         !projectsLayer ||
@@ -170,6 +236,62 @@ const LandingPage: React.FC = () => {
       // Start all project items fully below the viewport so they rise up with scroll.
       const riseDistance = window.innerHeight * 1.15;
 
+      gsap.set(heroContent, {
+        y: 0,
+        autoAlpha: 1,
+      });
+
+      gsap.set(logoOverlayRef.current, {
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeIntro, {
+        y: 72,
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeTitle, {
+        y: 80,
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeSubtitle, {
+        y: 60,
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeLeftColumn, {
+        x: -140,
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeLeftLogoImages, {
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeDivider, {
+        autoAlpha: 0,
+        y: 18,
+      });
+
+      gsap.set(creativeRightColumn, {
+        x: 140,
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeRightLogoImages, {
+        autoAlpha: 0,
+      });
+
+      gsap.set(creativeTaglineWords, {
+        y: 28,
+        autoAlpha: 0,
+      });
+
+      gsap.set(frameRef.current, {
+        autoAlpha: 0,
+      });
+
       gsap.set(projectsTitle, {
         y: riseDistance,
         autoAlpha: 1,
@@ -196,6 +318,12 @@ const LandingPage: React.FC = () => {
         autoAlpha: 1,
       });
 
+      gsap.set([maskRef.current, marqueeRef.current], {
+        yPercent: 0,
+        x: 0,
+        scale: 1,
+      });
+
       gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -205,24 +333,203 @@ const LandingPage: React.FC = () => {
           pin: true,
           anticipatePin: 1,
           onUpdate(self) {
-            const isAtTop = self.progress <= 0.001;
-            updateBackgroundPaused(!isAtTop);
-            updateLogoOverlay(self.progress);
+            const shouldPauseBackground = self.progress >= zoomOutStartProgress;
+            updateBackgroundPaused(shouldPauseBackground);
           },
           onRefresh(self) {
-            const isAtTop = self.progress <= 0.001;
-            updateBackgroundPaused(!isAtTop);
-            updateLogoOverlay(self.progress);
+            const shouldPauseBackground = self.progress >= zoomOutStartProgress;
+            updateBackgroundPaused(shouldPauseBackground);
             centerProjectCluster();
           },
         },
       })
+        .to(heroContent, {
+          y: -120,
+          autoAlpha: 0,
+          ease: "power2.inOut",
+          duration: 0.9,
+        })
+        .to(
+          logoOverlayRef.current,
+          {
+            autoAlpha: 1,
+            duration: 0.7,
+            ease: "power2.out",
+          },
+          ">-0.2"
+        )
+        .to(
+          creativeIntro,
+          {
+            y: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.8,
+          },
+          ">-0.75"
+        )
+        .to(
+          creativeTitle,
+          {
+            y: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.9,
+          },
+          ">-0.1"
+        )
+        .to(
+          creativeSubtitle,
+          {
+            y: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.7,
+          },
+          ">-0.15"
+        )
+        .to(
+          creativeLeftColumn,
+          {
+            x: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 1.0,
+          },
+          ">+0.3"
+        )
+        .to(
+          creativeLeftLogoImages[0],
+          {
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.82,
+          },
+          "<"
+        )
+        .to(
+          creativeLeftLogoImages[1],
+          {
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.82,
+          },
+          ">-0.5"
+        )
+        .to(
+          creativeLeftLogoImages[2],
+          {
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.82,
+          },
+          ">-0.5"
+        )
+        .to(
+          creativeDivider,
+          {
+            y: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.6,
+          },
+          ">-0.1"
+        )
+        .to(
+          creativeRightColumn,
+          {
+            x: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 1.0,
+          },
+          ">+0.1"
+        )
+        .to(
+          creativeRightLogoImages[2],
+          {
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.82,
+          },
+          "<"
+        )
+        .to(
+          creativeRightLogoImages[1],
+          {
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.82,
+          },
+          ">-0.5"
+        )
+        .to(
+          creativeRightLogoImages[0],
+          {
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.82,
+          },
+          ">-0.5"
+        )
+        .to(
+          creativeTaglineDesignWords,
+          {
+            y: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.45,
+            stagger: 0.1,
+          },
+          ">-0.3"
+        )
+        .to(
+          creativeTaglineHighlight,
+          {
+            y: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.45,
+          },
+          ">-0.1"
+        )
+        .to(
+          creativeTaglineHighlight,
+          {
+            scale: 1.16,
+            ease: "power2.out",
+            duration: 0.18,
+          },
+          ">-0.05"
+        )
+        .to(creativeTaglineHighlight, {
+          scale: 1,
+          ease: "power2.inOut",
+          duration: 0.32,
+        })
+        .to(
+          creativeTaglineCodeWords,
+          {
+            y: 0,
+            autoAlpha: 1,
+            ease: "power2.out",
+            duration: 0.52,
+            stagger: 0.1,
+          },
+          ">-0.08"
+        )
+        .to({}, { duration: 0.25 })
+        .to(frameRef.current, {
+          autoAlpha: 1,
+          duration: 0.12,
+          ease: "none",
+        }, ">")
         .to(maskRef.current, {
           scale: 0.35,
           ease: "power3.out",
           transformOrigin: "center center",
           duration: 1,
-        })
+        }, "<")
         .to(
           [maskRef.current, marqueeRef.current],
           {
@@ -344,7 +651,7 @@ const LandingPage: React.FC = () => {
       {/* Zooming mask - scales down as user scrolls */}
       <div ref={maskRef} className="landing-page-mask">
         {/* Thin frame that becomes visible only when the page is zoomed out */}
-        <div className={`landing-page-frame ${disableBackgroundAnimation ? "is-visible" : ""}`} />
+        <div ref={frameRef} className="landing-page-frame" />
 
         {/* Background container - positioned absolutely to fill the section */}
         <div className="landing-page-background-wrapper">
@@ -370,6 +677,52 @@ const LandingPage: React.FC = () => {
           {/* Subline/services list */}
           <p className="landing-page-subline">
             Ready to start? Scroll to begin :)
+          </p>
+        </div>
+
+        <div ref={creativeIntroRef} className="landing-page-creative-developer-intro">
+          <h2 className="landing-page-creative-developer-title">
+            What even is a <span className="highlight-cyan">creative developer?</span>
+          </h2>
+          <p className="landing-page-creative-developer-subtitle">
+            It’s just a fancy way of saying
+          </p>
+
+          <div className="landing-page-creative-developer-columns">
+            <div className="landing-page-creative-developer-column landing-page-creative-developer-column-left">
+              <h3>Web Designer</h3>
+            </div>
+
+            <div className="landing-page-creative-developer-divider" aria-hidden="true">
+              +
+            </div>
+
+            <div className="landing-page-creative-developer-column landing-page-creative-developer-column-right">
+              <h3>Web Developer</h3>
+            </div>
+          </div>
+
+          <div className="landing-page-creative-developer-logos-layout">
+            <div className="landing-page-creative-developer-logos landing-page-creative-developer-logos-group-left">
+              <img src={figmaLogo} alt="Figma logo" />
+              <img src={photoshopLogo} alt="Photoshop logo" />
+              <img src={adobeFontsLogo} alt="Adobe Fonts logo" />
+            </div>
+            <div className="landing-page-creative-developer-logos landing-page-creative-developer-logos-group-right">
+              <img src={githubLogo} alt="GitHub logo" />
+              <img src={vscodeLogo} alt="VS Code logo" />
+              <img src={netlifyLogo} alt="Netlify logo" />
+            </div>
+          </div>
+
+          <p className="landing-page-creative-developer-tagline">
+            <span className="landing-page-creative-developer-tagline-word">I</span>{" "}
+            <span className="landing-page-creative-developer-tagline-word">design</span>{" "}
+            <span className="landing-page-creative-developer-tagline-word">it</span>{" "}
+            <span className="landing-page-creative-developer-tagline-word landing-page-creative-developer-tagline-highlight highlight-cyan">and</span>{" "}
+            <span className="landing-page-creative-developer-tagline-word">I</span>{" "}
+            <span className="landing-page-creative-developer-tagline-word">code</span>{" "}
+            <span className="landing-page-creative-developer-tagline-word">it.</span>
           </p>
         </div>
       </div>
