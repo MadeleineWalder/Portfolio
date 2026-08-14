@@ -81,22 +81,6 @@ const LandingPage: React.FC = () => {
     }
   };
 
-  const updateGlow = (progress: number) => {
-    if (!maskRef.current) return;
-
-    const clamped = Math.min(Math.max(progress, 0), 1);
-    const strength = 1 - clamped;
-
-    const glowSize = 140 + strength * 240;
-    const glowAlpha = 0.35 + strength * 0.7;
-    const innerGlow = 14 + strength * 42;
-
-    maskRef.current.style.boxShadow =
-      `0 0 ${glowSize}px rgba(0, 244, 253, ${glowAlpha}), ` +
-      `inset 0 0 ${innerGlow}px rgba(0, 244, 253, ${glowAlpha * 0.45}), ` +
-      `0 40px 120px rgba(0, 0, 0, 0.35)`;
-  };
-
   const updateLogoOverlay = (progress: number) => {
     if (!logoOverlayRef.current) return;
 
@@ -223,13 +207,11 @@ const LandingPage: React.FC = () => {
           onUpdate(self) {
             const isAtTop = self.progress <= 0.001;
             updateBackgroundPaused(!isAtTop);
-            updateGlow(self.progress);
             updateLogoOverlay(self.progress);
           },
           onRefresh(self) {
             const isAtTop = self.progress <= 0.001;
             updateBackgroundPaused(!isAtTop);
-            updateGlow(self.progress);
             updateLogoOverlay(self.progress);
             centerProjectCluster();
           },
