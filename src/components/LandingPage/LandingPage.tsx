@@ -49,13 +49,13 @@ interface TimelineEntry {
 
 // Timeline rows are data-driven so future edits only require changing this array.
 const timelineEntries: TimelineEntry[] = [
-  { title: "Swedish Language and Civics Courses at Komvux Malmö", start: 2021, end: 2022.45, lane: 0, color: "rgba(216, 221, 230, 0.62)", edgeCut: "left" },
-  { title: "Diploma in Web Development at Code Institute", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(255, 146, 154, 0.92)" },
-  { title: "Live Streaming Platform Moderator (voluntary)", start: 2021, end: 2024, lane: 2, color: "rgba(255, 213, 143, 0.9)" },
-  { title: "Web Design Course on Udemy", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(41, 249, 191, 0.95)" },
+  { title: "Swedish Language and Civics Courses, Komvux Malmö", start: 2021, end: 2022.45, lane: 0, color: "rgba(0, 244, 253, 0.95)", edgeCut: "left" },
+  { title: "Diploma in Web Development, Code Institute", start: 2022.45, end: 2023.55, lane: 1, color: "rgba(246, 137, 232, 0.9)" },
+  { title: "Live Streaming Platform Moderator (voluntary)", start: 2021, end: 2024, lane: 2, color: "rgba(148, 157, 255, 0.92)" },
+  { title: "Web Design Course, Udemy", start: 2024.5, end: 2025.02, lane: 3, color: "rgba(0, 244, 253, 0.95)" },
   { title: "Freelance Web Designer & Developer", start: 2023.5, end: 2026.25, lane: 4, color: "rgba(246, 137, 232, 0.9)" },
-  { title: "Web Developer Internship at 2Toucans", start: 2024.02, end: 2024.5, lane: 5, color: "rgba(148, 157, 255, 0.92)" },
-  { title: "Creative Developer at Adnami", start: 2025.6, end: 2027, lane: 6, color: "rgba(0, 244, 253, 0.95)", edgeCut: "right" },
+  { title: "Web Developer Internship, 2Toucans", start: 2024.02, end: 2024.5, lane: 5, color: "rgba(148, 157, 255, 0.92)" },
+  { title: "Creative Developer, Adnami", start: 2025.6, end: 2027, lane: 6, color: "rgba(0, 244, 253, 0.95)", edgeCut: "right" },
 ];
 
 // Generate all axis years from the configured range.
@@ -618,7 +618,7 @@ const LandingPage: React.FC = () => {
     <section ref={sectionRef} className="landing-page">
       {/* Marquee background wrapper - contains animated text */}
       <div ref={marqueeRef} className="landing-page-marquee-wrapper">
-        <p className="landing-page-marquee-statement">Giving me a unique perspective</p>
+        <p className="landing-page-marquee-statement">Giving me a unique perspective.</p>
         <div className="landing-page-marquee-row landing-page-marquee-row-1" aria-hidden="true">
           <div className="landing-page-marquee-track">
             <span>Think outside the box</span>
@@ -761,7 +761,7 @@ const LandingPage: React.FC = () => {
       <div ref={timelineLayerRef} className="landing-page-timeline-layer">
         <div className="landing-page-timeline-center-stack">
           <h2 className="landing-page-timeline-title">
-            Education & work <span className="landing-page-projects-highlight">overview</span>
+            My <span className="landing-page-projects-highlight">journey</span> so far
           </h2>
           <div className="landing-page-timeline-viewport">
             <div className="landing-page-timeline-track">

@@ -623,10 +623,9 @@
   height: var(--timeline-axis-thickness);
   background: linear-gradient(
     90deg,
-    var(--color-primary) 0%,
-    var(--color-tertiary) 40%,
-    var(--color-secondary) 80%,
-    #ff8ce228 100%
+    #ffffffdb 0%,
+    #ffffffdb 80%,
+    #ffffff30 100%
   );
 }
 
@@ -646,8 +645,7 @@
   width: 0.45vh;
   height: 2.5vh;
   margin-top: calc(-1 * 0.45vh);
-  background: var(--color-text);
-  box-shadow: 0 0 12px rgba(0, 244, 253, 0.32);
+  background: #ffffffdb;
 }
 
 .landing-page-timeline-year-label {
