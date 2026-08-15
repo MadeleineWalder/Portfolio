@@ -65,6 +65,22 @@
   padding: 5rem 0;
 }
 
+.landing-page-marquee-statement {
+  position: absolute;
+  top: 12vh;
+  left: 50%;
+  width: max-content;
+  max-width: 88%;
+  margin: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2vw, 2.4rem);
+  font-weight: var(--weight-extra-light);
+  line-height: 1.2;
+  text-align: center;
+  color: var(--color-text);
+}
+
 .landing-page-marquee-row {
   width: 100%;
   overflow: hidden;

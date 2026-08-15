@@ -617,8 +617,9 @@ const LandingPage: React.FC = () => {
   return (
     <section ref={sectionRef} className="landing-page">
       {/* Marquee background wrapper - contains animated text */}
-      <div ref={marqueeRef} className="landing-page-marquee-wrapper" aria-hidden="true">
-        <div className="landing-page-marquee-row landing-page-marquee-row-1">
+      <div ref={marqueeRef} className="landing-page-marquee-wrapper">
+        <p className="landing-page-marquee-statement">Giving me a unique perspective</p>
+        <div className="landing-page-marquee-row landing-page-marquee-row-1" aria-hidden="true">
           <div className="landing-page-marquee-track">
             <span>Think outside the box</span>
             <span>Think outside the box</span>
@@ -632,7 +633,7 @@ const LandingPage: React.FC = () => {
             <span>Think outside the box</span>
           </div>
         </div>
-        <div className="landing-page-marquee-row landing-page-marquee-row-2">
+        <div className="landing-page-marquee-row landing-page-marquee-row-2" aria-hidden="true">
           <div className="landing-page-marquee-track">
             <span>Think outside the box</span>
             <span>Think outside the box</span>
@@ -850,7 +851,7 @@ const LandingPage: React.FC = () => {
           <p className="landing-page-inquiries-note">
             Why don't I have a contact form?
             <br />
-            Because it gets spammed by bots and ironically people asking me if I need a website.
+            Because it gets spammed by bots and ironically people asking if I need a website.
           </p>
         </div>
       </div>
